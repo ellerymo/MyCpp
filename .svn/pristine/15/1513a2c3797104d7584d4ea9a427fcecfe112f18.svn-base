@@ -1,0 +1,177 @@
+#pragma once
+#include<iostream>
+#include<string>
+using namespace std;
+#define INC (_capacity+3)
+#define DEFUALT 10
+template<typename T>
+class SeqList
+{
+public:
+	SeqList() :
+		_size(0), _capacity(DEFUALT), _data(new T[DEFUALT])
+	{}
+	~SeqList()
+	{
+		if (_data != NULL)
+		{
+			delete[] _data;
+		}
+	}
+public:
+	void CheckCapacity()
+	{
+		if (_size == _capacity)
+		{
+			T *tmp = new T[INC];
+			memcpy(tmp, _data, _size*sizeof(T));
+			delete[] _data;
+			_data = tmp;
+			_capacity = INC;
+		}
+	}
+
+	void PushBack(const T& data)
+	{
+		CheckCapacity();
+		_data[_size] = data;
+		_size++;
+	}
+
+	void PopBack()
+	{
+		if (_size == 0)
+			return;
+		_size--;
+	}
+
+	void PushFront(const T& data)
+	{
+		CheckCapacity();
+		T *tmp = new T[_capacity];
+		memcpy(tmp + 1, _data, _size*sizeof(T));
+		tmp[0] = data;
+		delete[] _data;
+		_data = tmp;
+		_size++;
+	}
+
+	void PopFront()
+	{
+		for (int i = 0; i < _size - 1; i++)
+		{
+			_data[i] = _data[i + 1];
+		}
+		_size--;
+	}
+
+	void Insert(int pos, const T& data)
+	{
+		CheckCapacity();
+		if (pos > _size - 1)
+		{
+			cout << "This add didn't find!" << endl;
+			return;
+		}
+		for (int i = _size; i > pos; i--)
+		{
+			_data[i] = _data[i - 1];
+		}
+		_data[pos] = data;
+		_size++;
+	}
+
+	void Sort()
+	{
+		for (int i = 0; i < _size - 1; i++)
+		{
+			for (int j = 0; j < _size - 1 - i; j++)
+			{
+				if (_data[j]>_data[j + 1])
+				{
+					T tmp = _data[j];
+					_data[j] = _data[j + 1];
+					_data[j + 1] = tmp;
+				}
+			}
+		}
+	}
+
+	void display()
+	{
+		for (int i = 0; i < _size; i++)
+		{
+			cout << _data[i] << "->";
+		}
+		cout << "over" << endl;
+	}
+private:
+	T *_data;
+	int _size;
+	int _capacity;
+};
+
+void test()
+{
+	SeqList<int> s1;
+	cout << "Î²²å12345" << endl;
+	s1.PushBack(1);
+	s1.PushBack(2);
+	s1.PushBack(3);
+	s1.PushBack(4);
+	s1.PushBack(5);
+	s1.display();
+	cout << "Î²É¾Èý¸öÔªËØ" << endl;
+	s1.PopBack();
+	s1.PopBack();
+	s1.PopBack();
+	s1.display();
+	cout << "Ç°²å5678" << endl;
+	s1.PushFront(5);
+	s1.PushFront(6);
+	s1.PushFront(7);
+	s1.PushFront(8);
+	s1.display();
+	s1.Insert(2, 5);
+	s1.display();
+	cout << "ÅÅÐò" << endl;
+	s1.Sort();
+	s1.display();
+}
+
+void test2()
+{
+	SeqList<string> s1;
+	s1.PushBack("hello");
+	s1.PushBack("This");
+	s1.PushBack("is");
+	s1.PushBack("a");
+	s1.PushBack("test");
+	s1.PushBack("test");
+	s1.PushBack("test");
+	s1.PushBack("test");
+	s1.PushBack("test");
+	s1.PushBack("test");
+	s1.PushBack("test");
+	s1.display();
+	//s1.PopBack();
+	//s1.PopBack();
+	//s1.PopBack();
+	//s1.display();
+	//s1.PushFront("front1");
+	//s1.PushFront("front2");
+	//s1.PushFront("front3");
+	//s1.PushFront("front4");
+	//s1.display();
+	//s1.Insert(2, "insert");
+	//s1.display();
+	/*cout << "ÅÅÐò" << endl;
+	s1.Sort();
+	s1.display();*/
+}
+int main()
+{
+	test2();
+	getchar();
+	return 0;
+}

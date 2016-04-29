@@ -1,0 +1,12 @@
+﻿生成启动时间为 2016/3/31 17:09:41。
+     1>项目“F:\working\Win32Project1\Win32Project1\Win32Project1.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt HAHAHA.cpp
+         HAHAHA.cpp
+     1>f:\working\win32project1\win32project1\hahaha.cpp(3): error C2731: “wWinMain”: 无法重载函数
+                 f:\working\win32project1\win32project1\hahaha.cpp(2) : 参见“wWinMain”的声明
+     1>已完成生成项目“F:\working\Win32Project1\Win32Project1\Win32Project1.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:00.96

@@ -1,0 +1,11 @@
+﻿生成启动时间为 16-4-14 18:46:56。
+     1>项目“F:\working\模板实现双向链表\模板实现双向链表\模板实现双向链表.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Dlist.cpp
+         Dlist.cpp
+     1>f:\working\模板实现双向链表\模板实现双向链表\dlist.cpp(313): fatal error C1075: 与左侧的 圆括号“(”(位于“f:\working\模板实现双向链表\模板实现双向链表\dlist.cpp(172)”)匹配之前遇到文件结束
+     1>已完成生成项目“F:\working\模板实现双向链表\模板实现双向链表\模板实现双向链表.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:00.70
