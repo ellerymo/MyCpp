@@ -160,7 +160,7 @@ int main()
 	return 0;
 }
 #endif
-#if 1
+#if 0
 struct BinaryTreeNode
 {
 	int _value;
@@ -230,6 +230,53 @@ int main()
 	int Pre[] = { 1, 2, 4, 5, 3, 6 };
 	int In[] = { 4, 2, 5, 1, 6, 3};
 	BinaryTree tree(Pre, In, sizeof(Pre) / sizeof(Pre[0]));
+	getchar();
+	return 0;
+}
+#endif
+
+#if 0
+//·­×ª×Ö·û´®
+#include<string.h>
+void Reverse(char *str,size_t size)
+{
+	size_t left = 0;
+	size_t right = size - 1;
+	while (left < right)
+	{
+		if (str[left] != str[right])
+		{
+			swap(str[left], str[right]);
+			
+		}
+		left++;
+		right--;
+	}
+}
+void ReverseStr(char *str,size_t size)
+{
+	 Reverse(str, size);
+	char *cur = str;
+	size_t len = 0;
+	char *post = cur;
+	while (*post != '\0')
+	{
+		len = 0;
+		cur = post;
+		while (*post != ' '&& *post!= '\0')
+		{
+			post++;
+			len++;
+		}
+		post++;
+		Reverse(cur, len);
+	}
+}
+int main()
+{
+	char str[] = "This is a test";
+	ReverseStr(str, strlen(str));
+	cout << str << endl;
 	getchar();
 	return 0;
 }
