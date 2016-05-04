@@ -269,20 +269,6 @@ void Dlist<T>::RemoveAll(T data)
 		cur = NULL;
 	}
 }
-template <typename T>
-void Dlist<T>::Reverse()
-{
-	Node<T>* cur = _head;
-	Dlist news;
-	while (cur)
-	{
-		news.PushFront(cur->_data);
-		cur = cur->_next;
-	}
-	Node<T> *tmp = _head;
-	_head = news._head;
-	news._head = tmp;
-}
 
 
 

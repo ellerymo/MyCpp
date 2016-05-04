@@ -8,7 +8,9 @@ void test()
 	int arr3[] = { 1, 2, '#', 3, '#', '#', 4, 5, '#', '#', 6 };
 	TreadingBinaryTree<int> b3(arr3, sizeof(arr3) / sizeof(arr3[0]), '#');
 	b1.PrevOrderTh();
+	b1.PreOrderThd();    
 	b2.InOrderTh();
+	b2.InOrderThd();
 	b3.PostOrderTh();
 }
 

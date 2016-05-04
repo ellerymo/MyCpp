@@ -51,7 +51,41 @@ public:
 		TreadBinaryTreeNode<T> * prev = NULL;
 		_PostOrderTh(_root,prev);
 	}
-
+	//前序线索化遍历
+	void PreOrderThd()
+	{
+		TreadBinaryTreeNode<T> *cur = _root;
+		while (cur)
+		{
+			cout << cur->_data << " ";
+			while (cur->_leftTag == LINK)
+			{
+				
+				cur = cur->_left;
+				cout << cur->_data << " ";
+			}
+			cur = cur->_right;
+		}
+		cout << endl;
+	}
+	void InOrderThd()
+	{
+		TreadBinaryTreeNode<T> *cur = _root;
+		while (cur)
+		{
+			while (cur->_leftTag == LINK)
+			{
+				cur = cur->_left;
+			}
+			cout << cur->_data << " ";
+			while (cur->_rightTag == THREAD)
+			{
+				cur = cur->_right;
+				cout << cur->_data << " ";
+			}
+			cur = cur->_right;
+		}
+	}
 protected:
 	//后序线索化
 	void _PostOrderTh(TreadBinaryTreeNode<T>* root,

@@ -156,6 +156,7 @@ public:
 		BinaryTreeNode *ret = _Find(_root, key);
 		return ret;
 	}
+
 private:
 	BinaryTreeNode * _Find(BinaryTreeNode *root, const DataType & key)
 	{
@@ -180,8 +181,6 @@ private:
 			return 1;
 		return _GetNodeInK(root->_left,k-1)+_GetNodeInK(root->_right,k-1);
 	}
-
-
 	void _Destory(BinaryTreeNode * root)
 	{
 		if (root)

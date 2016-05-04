@@ -133,19 +133,21 @@ int main()
 }
 #endif
 
-#if 1
+#if 0
 //单例模式
 class CSingleton
 {
 private:
-	CSingleton() //构造函数是私有的
+	CSingleton() 
+	//构造函数私有不允许外部实例化
 	{
 	}
 public:
 	static CSingleton * GetInstance()
 	{
+		//创建静态类指针 指向唯一实例
 		static CSingleton *m_pInstance;
-		if (m_pInstance == NULL) //判断是否第一次调用
+		if (m_pInstance == NULL) 
 			m_pInstance = new CSingleton();
 		return m_pInstance;
 	}
@@ -154,6 +156,80 @@ public:
 int main()
 {
 	CSingleton::GetInstance();
+	getchar();
+	return 0;
+}
+#endif
+#if 1
+struct BinaryTreeNode
+{
+	int _value;
+	BinaryTreeNode *_left;
+	BinaryTreeNode *_right;
+	BinaryTreeNode(const int& x = 0) :_value(x), _left(NULL), _right(NULL)
+	{}
+};
+class BinaryTree
+{
+private:
+	BinaryTreeNode *_root;
+public:
+	BinaryTree()
+	{}
+	BinaryTree(int *PreOrder, int *InOrder,int size)
+	{
+		if (!PreOrder || !InOrder || size <= 0)
+			return;
+		_root = _CreateTree(PreOrder, PreOrder + size - 1, InOrder, InOrder + size - 1);
+	}
+private:
+	BinaryTreeNode* _CreateTree(int *Pre,int *endPre,int *In,int *endIn)
+	{
+		//构造当前根节点root 
+		int RootValue = Pre[0];
+		BinaryTreeNode *root = new BinaryTreeNode(RootValue);
+		
+		//当走到最后一个元素
+		if (Pre == endPre)
+		{
+			//如果中序也走到了最后一个节点
+			//最后一个节点相等说明最后一个节点是一个右分支
+			if (In == endIn && *Pre == *In)
+				return root;
+		}
+
+		//在中序遍历中找到根节点
+		int *rootIn = In;
+		while (rootIn <= endIn && *rootIn != RootValue)
+		{
+			//当它等于前序首元素时表示为中序的根节点
+			++rootIn;
+		}
+		//找到之后计算出左子树的节点数
+		int leftLen = rootIn - In;
+
+		//找出前序里左子树的构造区间
+		int *PreLeftEnd = Pre + leftLen;
+		if (leftLen > 0)
+		{
+			//构造左子树
+			root->_left = _CreateTree(Pre + 1, PreLeftEnd  , In, rootIn - 1);
+		}
+
+		if (leftLen < endPre - Pre)
+		{
+			//构造右子树
+			root->_right = _CreateTree(PreLeftEnd + 1, endPre, rootIn + 1, endIn);
+		}
+		return root;
+
+	}
+};
+int main()
+{
+	int Pre[] = { 1, 2, 4, 5, 3, 6 };
+	int In[] = { 4, 2, 5, 1, 6, 3};
+	BinaryTree tree(Pre, In, sizeof(Pre) / sizeof(Pre[0]));
 	getchar();
 	return 0;
 }
