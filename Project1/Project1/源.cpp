@@ -281,3 +281,64 @@ int main()
 	return 0;
 }
 #endif
+#if 0
+//¿ìËÙÅÅĞò
+void MySort(int *ary,int size)
+{
+	if (ary == NULL||size <= 0 )
+		return;
+	int *key = ary ;
+	int *left = ary;
+	int *right = ary + size - 1;
+	while (key != ary + size)
+	{	
+		while (*right >= *key && left < right)
+		{
+			right--;
+		}
+		
+		while (*left <= *key && left < right)
+		{
+			left++;
+		}
+	
+		if (left < right)
+			swap(*left, *right);
+		else
+		{
+			swap(*key, *left);
+			key++;
+			left = key;
+			right = ary + size - 1;
+		}
+	
+	}
+	
+}
+
+int main()
+{
+	int arr[] = { 5, 6, 2, 1, 3, 7, 9 };
+	MySort(arr, sizeof(arr) / sizeof(arr[0]));
+	for (int i = 0; i < sizeof(arr) / sizeof(arr[0]); i++)
+	{
+		cout << arr[i] << "  ";
+	}
+	cout << endl;
+	getchar();
+	return 0;
+
+}
+
+#endif
+#if 1
+int main()
+{
+	char *a[] = { "abc", "def", "ghi" };
+	char **p = a;
+	p++;
+	cout << *p << endl;
+	getchar();
+	return 0;
+}
+#endif
