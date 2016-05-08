@@ -399,7 +399,7 @@ int main()
 }
 
 #endif
-#if 1
+#if 0
 /*·½·¨Ò»£ºÀûÓÃ¶ş·Ö·¨ÕÒµ½±ß½çÖµÔÙÀûÓÃ¶ş·Ö·¨²éÕÒ*/
 int Search(int *arr, int n, int x)
 {
@@ -450,7 +450,7 @@ int Search(int *arr, int n, int x)
 	}
 }
 #endif
-#if 1
+#if 0
 /*·½·¨2£ºÖ±½ÓÀûÓÃ¶ş·Ö·¨È·¶¨ÓĞĞòÇø¼äµÄµİ¹éËã·¨*/
 int FindInARoundAr(int *arr,int size,int key)
 {
@@ -493,6 +493,37 @@ int main()
 	int arr[] = { 5, 6, 1, 2, 3 };
 	cout<<FindInARoundAr(arr, 5, 6)<<endl;
 	getchar();
+	return 0;
+}
+#endif
+#if 1
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¼ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+/*
+	ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Æ¶ï¿½
+*/
+void ReOrder(int *arr,int size)
+{
+	int left = 0;
+	int right = size - 1;
+	while (right > left)
+	{
+		if (arr[left] % 2 == 0 && arr[right] % 2 == 1)
+		{
+				swap(arr[left], arr[right]);
+		}
+		while (arr[left] % 2 == 1)
+			++left;
+		while(arr[right] % 2 == 0)
+			--right;
+	}
+}
+//ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½Ê¹ï¿½Ãºï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ 
+int main()
+{
+	int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	ReOrder(arr, sizeof(arr) / sizeof(arr[0]));
+  	getchar();
 	return 0;
 }
 #endif
