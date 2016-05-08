@@ -176,7 +176,7 @@ void SList::sort()
 	if (_head == NULL)
 		return;
 	Node *cur = _head;
-	int count = getLen();
+	/*int count = getLen();
 	cur = _head;
 	for (int i = 0; i < count-1; i++)
 	{
@@ -189,6 +189,18 @@ void SList::sort()
 			}
 			p = p->_next;
 		}
+	}*/
+	Node *end = NULL;
+	while (cur != end)
+	{
+		while (cur->_next&&cur->_next != end)
+		{
+			if (cur->_data > (cur->_next)->_data)
+				swap(cur->_data, (cur->_next)->_data);
+			cur = cur->_next;
+		}
+		end = cur;
+		cur = _head;
 	}
 }
 
@@ -275,9 +287,9 @@ void SList::Merge(Node* l1, Node* l2)
 		}
 		else if (l2->_data <= l1->_data)
 		{
-			*cur = l2;
+			*cur = l2;        
 			l2 = l2->_next;
-		}
+		 }
 		cur = &((*cur)->_next);
 	}
 	if (l1 == NULL)

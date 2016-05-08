@@ -331,13 +331,167 @@ int main()
 }
 
 #endif
-#if 1
+#if 0
 int main()
 {
 	char *a[] = { "abc", "def", "ghi" };
 	char **p = a;
 	p++;
 	cout << *p << endl;
+	getchar();
+	return 0;
+}
+#endif
+#if 0
+/*
+	题目：找出旋转数组的最小数字
+	旋转数组：{3,4,5,1,2}是数组{1,2,3,4,5}的旋转
+	
+*/
+int MinInOrder(int *arr, int index1, int index2)
+{
+	int resualt = arr[index1];
+	for (int i = index1; i <= index2; ++i)
+	{
+		if (resualt > arr[i])
+			resualt = arr[i];
+	}
+	return resualt;
+}
+int FindMinNunInArr(int *arr,int size)
+{
+	//检查输入参数的合法性
+	if (!arr || size <= 0)
+		return -1;
+
+	int index1 = 0;
+	int index2 = size - 1;
+	int indexMid = 0;
+	//利用二分查找，每次比较中间值和边界值，缩小查找范围
+	while (arr[index1] >= arr[index2])
+	{
+		if (index2 - index1 == 1)
+		{
+			indexMid = index2;
+			break;
+		}
+       		indexMid = ((index1&index2) + ((index1^index2) >> 1));
+		/*
+			此类情况不能缩小范围：{1,1,1,1,0}旋转为{1,1,1,0,1}
+			此时中间值和边界值相等只能采用顺序查找
+		*/
+		if (arr[index1] == arr[index2] && arr[index2] == arr[indexMid])
+			return MinInOrder(arr, index1, index2);
+		if (arr[indexMid] >= arr[index1])
+			index1 = indexMid;
+		else if (arr[indexMid] <= arr[index2])
+			index2 = indexMid;
+	}
+	return indexMid;
+}
+
+int main()
+{
+	int arr[] = { 3, 4, 5, 1, 2 };
+	cout<<FindMinNunInArr(arr, 5)<<endl;
+	getchar();
+	return 0;	
+}
+
+#endif
+#if 1
+/*方法一：利用二分法找到边界值再利用二分法查找*/
+int Search(int *arr, int n, int x)
+{
+	int start = 0;
+	int end = n - 1;
+	int mid = (start & end) + ((start^end) >> 1);
+	int min = 0;
+	int max = 0;
+	while (start < end)
+	{
+		if (arr[start] < arr[mid])
+			start = mid;
+		else if (arr[mid] < arr[end])
+			end = mid;
+		if (end - start == 1)
+		{
+			min = end;
+			max = start;
+			break;
+		}
+		mid = (start & end) + ((start^end) >> 1);
+	}
+	if (x < arr[min] || x > arr[max])
+		return -1;
+	else if (x <= *(arr + n - 1))
+	{
+		if (x == arr[n - 1])
+			return n - 1;
+		start = min;
+		end = arr[n - 1];
+	}
+	else if (x >= arr[0])
+	{
+		return 0;
+		start = arr[0];
+		end = arr[max];
+	}
+	mid = (start & end) + ((start^end) >> 1);
+	while (start < mid)
+	{
+		if (arr[mid] < x)
+			start = mid + 1;
+		else if (arr[mid] > x)
+			end = mid - 1;
+		else
+			return mid;
+		mid = (start & end) + ((start^end) >> 1);
+	}
+}
+#endif
+#if 1
+/*方法2：直接利用二分法确定有序区间的递归算法*/
+int FindInARoundAr(int *arr,int size,int key)
+{
+	int left = 0;
+	int right = size - 1;
+	int mid = (left&right) + ((left^right) >> 1);
+
+	while (left < right)
+	{
+		
+		if (arr[left] == key)
+			return left;
+		if (arr[right] == key)
+			return right;
+		if (arr[mid] == key)
+			return mid;
+
+		//确定有序的区间并确定查找数据是否在里面
+		else if (arr[left] < arr[mid])
+		{
+			if (key >= arr[left] && key <= arr[mid])
+				FindInARoundAr(arr, mid - left + 1, key);
+			else
+				left = mid + 1;
+		}
+
+		else if (arr[mid] < arr[right])
+		{
+			if (key >= arr[mid] && key <= arr[right])
+				FindInARoundAr(arr +mid, right-mid + 1, key);
+			else
+				right = mid - 1;
+		}
+		mid = (left&right) + ((left^right) >> 1);
+	}
+
+}
+int main()
+{
+	int arr[] = { 5, 6, 1, 2, 3 };
+	cout<<FindInARoundAr(arr, 5, 6)<<endl;
 	getchar();
 	return 0;
 }
