@@ -1,5 +1,7 @@
 #include"BigData.h"
 using namespace std;
+
+
 void testOSADD()
 {
 	BigData big1("123");
@@ -12,6 +14,7 @@ void testOSADD()
 	cout << big4 << endl;
 	cout << (big1 + big3) << endl;
 	cout << (big1 + big4) << endl;
+	BigData big;
 }
 
 

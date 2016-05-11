@@ -5,33 +5,10 @@ using namespace std;
 #define MIN_INT64 9223372036854775808
 
 
-ostream& operator<<(std::ostream& os, const BigData big) 
-{
-	if (big._value != INIT)
-		os << big._value;
-	else 
-	{
-		if (big._StrData[0] == '+')
-		{
-			int i = 1;
-			while (big._StrData[i] == '0')
-				i++;
-			for (i; i < big._StrData.size(); i++)
-			{
-				os << big._StrData[i];
-			}
-		}
-		else
-			os << big._StrData;
-	}
-	if (big._value == INIT && big._StrData.size() == 0)
-		os << "error!";
-	return os;
-}
 
 BigData::BigData(const INT64 data) :_value(data)
 {
-	int tmp = _value;
+	INT64 tmp = _value;
 	int VCount = 0;
 	
 	/*
@@ -63,7 +40,7 @@ BigData::BigData(const INT64 data) :_value(data)
 	}
 }
 
-BigData::BigData(const char * str="") : _value(INIT)
+BigData::BigData(const char * str) : _value(INIT)
 {
 	const char *cur = str;
 	/*
@@ -82,7 +59,7 @@ BigData::BigData(const char * str="") : _value(INIT)
 
 	/*
 		忽略有效参数的前的0 例如此种传参：
-		"000000111223456789"
+		"000000111223456789" 
 	*/
 	while (cur == 0)
 		cur++;
@@ -121,6 +98,7 @@ BigData::BigData(const char * str="") : _value(INIT)
 	}
 }
 
+/*判断long long 是否溢出*/
 bool BigData::INTisOverFlow(const char * str)
 {
 	/* 判断是否溢出有歧义 */
@@ -129,6 +107,7 @@ bool BigData::INTisOverFlow(const char * str)
 	else
 		return true;
 }
+
 BigData BigData:: operator+ (const BigData& big)
 {
 	/*
@@ -177,6 +156,7 @@ BigData BigData:: operator+ (const BigData& big)
 	return sum;
 }
 
+/*内置加法算法*/
 string BigData::_ADD(const BigData& big)
 {
 	/*
@@ -218,4 +198,28 @@ string BigData::_ADD(const BigData& big)
 	}
 	sum[1] = Step+'0';
 	return sum;
+}
+
+ostream& operator<<(std::ostream& os, const BigData big)
+{
+	if (big._value != INIT)
+		os << big._value;
+	else
+	{
+		if (big._StrData[0] == '+')
+		{
+			size_t i = 1;
+			while (big._StrData[i] == '0')
+				i++;
+			for (i; i < big._StrData.size(); i++)
+			{
+				os << big._StrData[i];
+			}
+		}
+		else
+			os << big._StrData;
+	}
+	if (big._value == INIT && big._StrData.size() == 0)
+		os << "error!";
+	return os;
 }

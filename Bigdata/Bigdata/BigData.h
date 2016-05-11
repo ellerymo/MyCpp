@@ -17,7 +17,7 @@ private:
 
 public:
 	BigData(const INT64 data);
-	BigData(const char * str);
+	BigData(const char * str = "");
 	BigData operator+ (const BigData& big);
 	
 
