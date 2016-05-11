@@ -496,10 +496,10 @@ int main()
 	return 0;
 }
 #endif
-#if 1
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¼ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+#if 0
+//µ÷ÕûÊý×é¼ÄÅ¼Êý×ÖÎ»ÖÃ
 /*
-	ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Æ¶ï¿½
+	·½·¨Ò»£ºÖ¸ÕëÒÆ¶¯
 */
 void ReOrder(int *arr,int size)
 {
@@ -517,13 +517,36 @@ void ReOrder(int *arr,int size)
 			--right;
 	}
 }
-//ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½Ê¹ï¿½Ãºï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//À©Õ¹£º½â¾öÍ¬ÀàÎÊÌâÎÒÃÇ¿ÉÒÔÊ¹ÓÃº¯ÊýÖ¸Õë½â¾ö£¡
  
 int main()
 {
 	int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	ReOrder(arr, sizeof(arr) / sizeof(arr[0]));
   	getchar();
+	return 0;
+}
+#endif
+#if 1
+long long Fibonaqucci(int n)
+{
+	long long first = 0;
+	long long second = 1;
+	long long fi = 0;
+	if (n < 2)
+		return n; 
+	for ( unsigned int i = 2; i <=n; i++)
+	{ 
+		fi = first + second;
+		first = second;
+		second = fi;
+	}
+	return fi;
+}
+int main()
+{
+	cout<<Fibonaqucci(5000)<<endl;
+	getchar();
 	return 0;
 }
 #endif
