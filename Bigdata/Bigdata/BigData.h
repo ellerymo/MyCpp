@@ -13,7 +13,6 @@ private:
 	//用于存放没有溢出的数据
 	INT64 _value;
 
-	//存放溢出的数据
 	std::string _StrData;
 
 public:

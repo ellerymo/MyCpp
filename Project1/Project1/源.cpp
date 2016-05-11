@@ -527,7 +527,7 @@ int main()
 	return 0;
 }
 #endif
-#if 1
+#if 0
 long long Fibonaqucci(int n)
 {
 	long long first = 0;
@@ -546,6 +546,27 @@ long long Fibonaqucci(int n)
 int main()
 {
 	cout<<Fibonaqucci(5000)<<endl;
+	getchar();
+	return 0;
+}
+#endif
+#if 0
+//数值中1的位数
+int OneInNum(int data)
+{
+	int Count = 0;
+	while (data)
+	{
+		//将数字二进制表示形式中最右边的一个1置0
+		data = data&(data - 1);
+		Count++;
+	}
+	return Count;
+
+}
+int main()
+{
+	cout << OneInNum(7) << endl;
 	getchar();
 	return 0;
 }
