@@ -14,13 +14,19 @@ void testOSADD()
 	cout << big4 << endl;
 	cout << (big1 + big3) << endl;
 	cout << (big1 + big4) << endl;
-	BigData big;
+	BigData big("0");
 }
+void testSUB()
+{
+	BigData big("1234567890234567");
+	BigData sma("-233333452213");
+	cout << big - sma << endl;
 
+}
 
 int main()
 {
-	testOSADD();
+	testSUB();
 	getchar();
 	return 0;
 }

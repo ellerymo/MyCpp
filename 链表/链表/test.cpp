@@ -143,7 +143,7 @@ void test8()
 }
 int main()
 {
-	test4();
+	test6();
 	getchar();
 	return 0;
 }

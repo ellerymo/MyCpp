@@ -262,7 +262,7 @@ void SList::InsertFrontNode(Node *pos, DataType x)
 }
 
 //合并两个有序列表-----6
-void SList::Merge(Node* l1, Node* l2)
+/*void SList::Merge(Node* l1, Node* l2)
 {
 	Node *newNode = NULL;
 	if (l1 == NULL || l2 == NULL)
@@ -298,6 +298,43 @@ void SList::Merge(Node* l1, Node* l2)
 		*cur = l1;
 	_head = newNode;
 
+}*/
+void SList::Merge(Node* l1, Node* l2)
+{
+	Node* newHead = NULL;
+	if (l1 == NULL || l2 == NULL)
+		return;
+	if (l1->_data > l2->_data)
+	{
+		newHead = l2;
+		l2 = l2->_next;
+	}
+	else
+	{
+		newHead = l1;
+		l1 = l1->_next;
+	}
+	Node *cur = newHead;
+	while (l1&&l2)
+	{
+		if (l1->_data > l2->_data)
+		{
+			cur->_next = l2;
+			l2 = l2->_next;
+			cur = cur->_next;
+		}
+		else
+		{
+			cur->_next = l1;
+			l1 = l1->_next;
+			cur = cur->_next;
+		}
+	}
+	if (l1)
+		cur->_next = l1;
+	else
+		cur->_next = l2;
+	_head = newHead;
 }
 
 //查找链表的中间节点---7

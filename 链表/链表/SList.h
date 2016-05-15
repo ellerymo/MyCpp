@@ -28,7 +28,7 @@ public:
 		if (_head != NULL)
 		{
 			Node *cur = _head;
-			while (cur->_next != NULL)
+			while (cur&&cur->_next)
 			{
 				Node *tmp = cur;
 				cur = cur->_next;

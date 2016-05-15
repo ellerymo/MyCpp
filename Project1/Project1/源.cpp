@@ -571,3 +571,76 @@ int main()
 	return 0;
 }
 #endif
+#if 0
+//打印1到n位的最大数
+bool Increase(char *num)
+{
+	int lenth = strlen(num);
+	bool OverFlow = false;
+	int Step = 0;
+	for (int i = lenth - 1; i >= 0; i--)
+	{
+		int sum = Step + (num[i] - '0');
+		if (i == lenth - 1)
+			sum++;
+		if (sum >= 10)
+		{
+			if (i == 0)
+				OverFlow = true;
+			else
+			{
+				Step = sum / 10;
+				sum = sum % 10;
+				num[i] = sum + '0';
+			}
+		}
+		else
+		{
+			num[i] = sum + '0';
+			break;
+		}
+	}
+	return OverFlow;
+}
+void Print(char *num)
+{
+	bool isBegin0 = true;
+	int lenth = strlen(num);
+	for (int i = 0; i < lenth; i++)
+	{
+		if (isBegin0 && num[i] != '0')
+			isBegin0 = false;
+		if (!isBegin0)
+		{
+			cout << num[i];
+		}
+	}
+	cout << " ";
+}
+void OneToMix(int n)
+{
+	if (n <= 0)
+		return;
+
+	char *num = new char[n + 1];
+	memset(num, '0', n);
+	num[n] = '\0';
+
+	while (!Increase(num))
+	{
+		Print(num);
+	}
+	delete[] num;
+}
+int main()
+{
+	OneToMix(3);
+	getchar();
+	return 0;
+}
+#endif
+#if 1
+
+int main()
+{}
+#endif

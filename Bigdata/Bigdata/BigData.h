@@ -16,13 +16,16 @@ private:
 	std::string _StrData;
 
 public:
-	BigData(const INT64 data);
-	BigData(const char * str = "");
+	BigData(const long long data);
+	BigData(const char* str = "");
+	BigData(const std::string str);
 	BigData operator+ (const BigData& big);
+	BigData operator- (const BigData& big);
 	
 
 private:
 	bool INTisOverFlow(const char * str);
 	std::string _ADD(const BigData& big);
+	std::string _SUB(const BigData& big);
 
 };

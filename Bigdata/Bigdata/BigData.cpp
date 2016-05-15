@@ -6,7 +6,7 @@ using namespace std;
 
 
 
-BigData::BigData(const INT64 data) :_value(data)
+BigData::BigData(const long long data) :_value(data)
 {
 	INT64 tmp = _value;
 	int VCount = 0;
@@ -40,7 +40,7 @@ BigData::BigData(const INT64 data) :_value(data)
 	}
 }
 
-BigData::BigData(const char * str) : _value(INIT)
+BigData::BigData(const char* str) : _value(INIT)
 {
 	const char *cur = str;
 	/*
@@ -97,7 +97,8 @@ BigData::BigData(const char * str) : _value(INIT)
 		}
 	}
 }
-
+BigData::BigData(const string str) :_StrData(str)
+{}
 /*判断long long 是否溢出*/
 bool BigData::INTisOverFlow(const char * str)
 {
@@ -152,16 +153,50 @@ BigData BigData:: operator+ (const BigData& big)
 		sum._StrData = _ADD(big);
 		sum._value = INIT;
 	}
+	else
+	{
+		//异号直接减法
+
+	}
 	
 	return sum;
+}
+
+BigData BigData:: operator- (const BigData& big)
+{
+	//没有溢出
+	if (_value != INIT && big._value != INIT)
+	{
+		//同号
+		if (_StrData[0] == big._StrData[0])
+		{
+			if (_StrData[0] == '+' && MIN_INT64 + big._value <= _value)
+				return BigData(_value - big._value);
+			else if (_StrData[0] == '-' && MAX_INT64 + big._value >= _value)
+				return BigData(_value - big._value);
+			else
+				return BigData(_SUB(big));
+		}
+		//异号
+		else
+		{
+			if (_StrData[0] == '+' && MIN_INT64 + big._value >= _value)
+				return BigData(_value - big._value);
+			else if (_StrData[0] == '-' && MAX_INT64 + big._value <= _value)
+				return BigData(_value - big._value);
+			else
+				return BigData(_SUB(big));
+		}
+	}
+
+	//有溢出
+	return BigData(_SUB(big));
 }
 
 /*内置加法算法*/
 string BigData::_ADD(const BigData& big)
 {
-	/*
-		
-	*/
+	
 	string sum;
 	int Index = _StrData.size()-1;
 	int Step = 0;
@@ -199,6 +234,125 @@ string BigData::_ADD(const BigData& big)
 	sum[1] = Step+'0';
 	return sum;
 }
+
+string BigData::_SUB(const BigData& big)
+{
+	string ret;
+	int Step = 0;
+	bool Th = true;
+	//找最长的作为循环因子
+	int left = _StrData.size();
+	int right = big._StrData.size();
+	if (right > left)
+	{
+		swap(left, right);
+		Th = false;
+	}
+	
+	ret.resize(left);
+	ret[0] = _StrData[0];
+	int Sub = 0;
+	int Index1 = left - 1;
+	int Index2 = right - 1;
+	//异号
+	if (_StrData[0] != big._StrData[0])
+		ret = _ADD(big);
+	//同号
+	else
+	{
+		//都为正
+		if (_StrData[0] == '+')
+		{
+			if (Th)
+			{
+				while (Index1 != 0)
+				{
+					if (Index2 > 0)
+						Sub = (_StrData[Index1] - '0') - (big._StrData[Index2] - '0') + Step;
+					else
+						Sub = (_StrData[Index1] - '0')+ Step;
+					if (Sub < 0)
+					{
+						Sub = (_StrData[Index1] - '0') + 10 - (big._StrData[Index2] - '0') + Step;
+						Step = -1;
+					}
+					else
+						Step = 0;
+					ret[Index1] = Sub + '0';
+					Index1--;
+					Index2--;
+				}
+			}
+			else
+			{
+				while (Index1 != 0)
+				{
+					if (Index2 > 0)
+						Sub = (_StrData[Index2] - '0') - (big._StrData[Index1] - '0') + Step;
+					else
+						Sub = (_StrData[Index1] - '0') + Step;
+					if (Sub < 0)
+					{
+						Sub = (_StrData[Index2] - '0') + 10 - (big._StrData[Index1] - '0') + Step;
+						Step = -1;
+					}
+					else
+						Step = 0;
+					ret[Index1] = Sub + '0';
+					Index1--;
+					Index2--;
+				}
+			}
+		}
+		//都为负
+		else
+		{
+			if (Th)
+			{
+				while (Index1 != 0)
+				{
+					if (Index2 > 0)
+						Sub = (big._StrData[Index2] - '0') - (_StrData[Index1] - '0') + Step;
+					else
+						Sub = (_StrData[Index1] - '0') + Step;
+					if (Sub < 0)
+					{
+						Sub = (big._StrData[Index2] - '0') + 10 - (_StrData[Index1] - '0') + Step;
+						Step = -1;
+					}
+					else
+						Step = 0;
+					ret[Index1] = Sub + '0';
+					Index1--;
+					Index2--;
+				}
+			}
+			else
+			{
+				while (Index1 != 0)
+				{
+					if (Index2 > 0)
+						Sub = (big._StrData[Index1] - '0') - (_StrData[Index2] - '0') + Step;
+					else
+						Sub = (_StrData[Index1] - '0') + Step;
+					if (Sub < 0)
+					{
+						Sub = (big._StrData[Index1] - '0') + 10 - (_StrData[Index2] - '0') + Step;
+						Step = -1;
+					}
+					else
+						Step = 0;
+					ret[Index1] = Sub + '0';
+					Index1--;
+					Index2--;
+				}
+			}
+		}
+
+	}
+	return ret;
+}
+
 
 ostream& operator<<(std::ostream& os, const BigData big)
 {
