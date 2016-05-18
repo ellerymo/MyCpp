@@ -309,7 +309,10 @@ string BigData::_SUB(string s1, string s2)
 						Sub = (s1[Index1] - '0') + Step;
 					if (Sub < 0)
 					{
-						Sub = (s1[Index2] - '0') + 10 - (s2[Index1] - '0') + Step;
+						if (Index2 > 0)
+							Sub = (s1[Index2] - '0') - (s2[Index1] - '0') + Step;
+						else
+							Sub = (s1[Index1] - '0') + Step;
 						Step = -1;
 					}
 					else
@@ -333,7 +336,10 @@ string BigData::_SUB(string s1, string s2)
 						Sub = (s1[Index1] - '0') + Step;
 					if (Sub < 0)
 					{
-						Sub = (s2[Index2] - '0') + 10 - (s1[Index1] - '0') + Step;
+						if (Index2 > 0)
+							Sub = (s2[Index2] - '0') - (s1[Index1] - '0') + Step;
+						else
+							Sub = (s1[Index1] - '0') + Step;
 						Step = -1;
 					}
 					else
@@ -353,7 +359,10 @@ string BigData::_SUB(string s1, string s2)
 						Sub = (s1[Index1] - '0') + Step;
 					if (Sub < 0)
 					{
-						Sub = (s2[Index1] - '0') + 10 - (s1[Index2] - '0') + Step;
+						if (Index2 > 0)
+							Sub = (s2[Index1] - '0') - (s1[Index2] - '0') + Step;
+						else
+							Sub = (s1[Index1] - '0') + Step;
 						Step = -1;
 					}
 					else
@@ -364,7 +373,6 @@ string BigData::_SUB(string s1, string s2)
 				}
 			}
 		}
-
 	}
 	return ret;
 }
