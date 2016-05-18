@@ -640,7 +640,38 @@ int main()
 }
 #endif
 #if 1
+//查找树的子结构
+struct BinaryTreeNode
+{
+	int _value;
+	BinaryTreeNode *_left;
+	BinaryTreeNode *_right;
+	BinaryTreeNode(const int& x = 0) :_value(x), _left(NULL), _right(NULL)
+	{}
+};
+bool IsCh(BinaryTreeNode * pRoot1, BinaryTreeNode* pRoot2)
+{
+	if (pRoot2 == NULL)
+		return true;
+	if (pRoot1 == NULL)
+		return false;
+	if (pRoot1->_value != pRoot2->_value)
+		return false;
 
-int main()
-{}
+	return IsCh(pRoot1->_left, pRoot2->_left) && IsCh(pRoot1->_right, pRoot2->_right);
+}
+bool IsContain(BinaryTreeNode * pRoot1, BinaryTreeNode* pRoot2)
+{
+	bool resualt = false;
+	if (pRoot1 && pRoot2)
+	{
+		if (pRoot1->_value == pRoot2->_value)
+			resualt = IsCh(pRoot1, pRoot2);
+		if (!resualt)
+			resualt = IsContain(pRoot1->_left, pRoot2);
+		if (!resualt)
+			resualt = IsContain(pRoot1->_right, pRoot2);
+	}
+	return resualt;
+}
 #endif

@@ -23,10 +23,23 @@ void testSUB()
 	cout << big - sma << endl;
 
 }
+void testMUL()
+{
+	BigData big("123");
+	BigData sma("2345");
+	cout << big * sma << endl;
+}
+
+void testDIV()
+{
+	BigData big("12345");
+	BigData sma("1234");
+	cout << big / sma << endl;
+}
 
 int main()
 {
-	testSUB();
+	testDIV();
 	getchar();
 	return 0;
 }

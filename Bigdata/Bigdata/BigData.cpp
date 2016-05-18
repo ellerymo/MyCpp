@@ -4,8 +4,6 @@ using namespace std;
 #define MAX_INT64 9223372036854775807
 #define MIN_INT64 9223372036854775808
 
-
-
 BigData::BigData(const long long data) :_value(data)
 {
 	INT64 tmp = _value;
@@ -97,8 +95,10 @@ BigData::BigData(const char* str) : _value(INIT)
 		}
 	}
 }
-BigData::BigData(const string str) :_StrData(str)
+
+BigData::BigData(const string str) :_StrData(str), _value(INIT)
 {}
+
 /*判断long long 是否溢出*/
 bool BigData::INTisOverFlow(const char * str)
 {
@@ -132,7 +132,7 @@ BigData BigData:: operator+ (const BigData& big)
 				}
 				else
 				{
-					sum._StrData = _ADD(big);
+					sum._StrData = _ADD(_StrData,big._StrData);
 				}
 			}
 			else
@@ -144,13 +144,13 @@ BigData BigData:: operator+ (const BigData& big)
 				}
 				else
 				{
-					sum._StrData = _ADD(big);
+					sum._StrData = _ADD(_StrData, big._StrData);
 					sum._value = INIT;
 				}
 			}
 		}
 		//溢出
-		sum._StrData = _ADD(big);
+		sum._StrData = _ADD(_StrData, big._StrData);
 		sum._value = INIT;
 	}
 	else
@@ -175,7 +175,7 @@ BigData BigData:: operator- (const BigData& big)
 			else if (_StrData[0] == '-' && MAX_INT64 + big._value >= _value)
 				return BigData(_value - big._value);
 			else
-				return BigData(_SUB(big));
+				return BigData(_SUB(_StrData, big._StrData));
 		}
 		//异号
 		else
@@ -185,64 +185,77 @@ BigData BigData:: operator- (const BigData& big)
 			else if (_StrData[0] == '-' && MAX_INT64 + big._value <= _value)
 				return BigData(_value - big._value);
 			else
-				return BigData(_SUB(big));
+				return BigData(_SUB(_StrData, big._StrData));
 		}
 	}
 
 	//有溢出
-	return BigData(_SUB(big));
+	return BigData(_SUB(_StrData, big._StrData));
+}
+
+BigData BigData:: operator* (const BigData& big)
+{
+	if (_value == 0 || big._value == 0)
+		return BigData("0");
+	return BigData(_MUL(_StrData, big._StrData));
+}
+
+BigData BigData:: operator/ (const BigData& big)
+{
+	return BigData(_DIV(_StrData,big._StrData));
 }
 
 /*内置加法算法*/
-string BigData::_ADD(const BigData& big)
+string BigData::_ADD(string s1, string s2)
 {
 	
 	string sum;
-	int Index = _StrData.size()-1;
+	int Index = s1.size()-1;
 	int Step = 0;
-	int Short = big._StrData.size()-1;
+	int Short = s2.size()-1;
 	int flag = 1;
-	if (_StrData.size() < big._StrData.size())
+	if (s1.size() < s2.size())
 	{
 		swap(Index, Short);
 		flag = 2;
 
 	}
 	sum.resize(Index + 2); 
-	sum[0] = _StrData[0];
+	sum[0] = s1[0];
 	int tmp = 0;
 	while (Index)
 	{
 		if (flag == 1)
 		{
 			if (Short != 0)
-				tmp = (_StrData[Index] - '0') + (big._StrData[Short--] - '0') + Step;
+				tmp = (s1[Index] - '0') + (s2[Short--] - '0') + Step;
 			else
-				tmp = _StrData[Index] - '0' + Step;
+				tmp = s1[Index] - '0' + Step;
 		}
 		else
 		{
 			if (Short != 0)
-				tmp = (big._StrData[Index] - '0') + (_StrData[Short--] - '0') + Step;
+				tmp = (s2[Index] - '0') + (s1[Short--] - '0') + Step;
 			else
-				tmp = big._StrData[Index] - '0' + Step;
+				tmp = s2[Index] - '0' + Step;
 		}
 		Step = tmp / 10;
 		sum[Index + 1] = tmp % 10 + '0';
 		Index--;
 	}
 	sum[1] = Step+'0';
+	CleanZero(sum);
 	return sum;
 }
 
-string BigData::_SUB(const BigData& big)
+string BigData::_SUB(string s1, string s2)
 {
 	string ret;
 	int Step = 0;
 	bool Th = true;
 	//找最长的作为循环因子
-	int left = _StrData.size();
-	int right = big._StrData.size();
+	int left = s1.size();
+	int right = s2.size();
 	if (right > left)
 	{
 		swap(left, right);
@@ -250,30 +263,33 @@ string BigData::_SUB(const BigData& big)
 	}
 	
 	ret.resize(left);
-	ret[0] = _StrData[0];
+	ret[0] = s1[0];
 	int Sub = 0;
 	int Index1 = left - 1;
 	int Index2 = right - 1;
 	//异号
-	if (_StrData[0] != big._StrData[0])
-		ret = _ADD(big);
+	if (s1[0] != s2[0])
+		ret = _ADD(s1,s2);
 	//同号
 	else
 	{
 		//都为正
-		if (_StrData[0] == '+')
+		if (s1[0] == '+')
 		{
 			if (Th)
 			{
 				while (Index1 != 0)
 				{
 					if (Index2 > 0)
-						Sub = (_StrData[Index1] - '0') - (big._StrData[Index2] - '0') + Step;
+						Sub = (s1[Index1] - '0') - (s2[Index2] - '0') + Step;
 					else
-						Sub = (_StrData[Index1] - '0')+ Step;
+						Sub = (s1[Index1] - '0')+ Step;
 					if (Sub < 0)
 					{
-						Sub = (_StrData[Index1] - '0') + 10 - (big._StrData[Index2] - '0') + Step;
+						if (Index2 > 0)
+							Sub = (s1[Index1] - '0') + 10 - (s2[Index2] - '0') + Step;
+						else
+							Sub = (s1[Index1] - '0') + 10 + Step;
 						Step = -1;
 					}
 					else
@@ -288,12 +304,12 @@ string BigData::_SUB(const BigData& big)
 				while (Index1 != 0)
 				{
 					if (Index2 > 0)
-						Sub = (_StrData[Index2] - '0') - (big._StrData[Index1] - '0') + Step;
+						Sub = (s1[Index2] - '0') - (s2[Index1] - '0') + Step;
 					else
-						Sub = (_StrData[Index1] - '0') + Step;
+						Sub = (s1[Index1] - '0') + Step;
 					if (Sub < 0)
 					{
-						Sub = (_StrData[Index2] - '0') + 10 - (big._StrData[Index1] - '0') + Step;
+						Sub = (s1[Index2] - '0') + 10 - (s2[Index1] - '0') + Step;
 						Step = -1;
 					}
 					else
@@ -312,12 +328,12 @@ string BigData::_SUB(const BigData& big)
 				while (Index1 != 0)
 				{
 					if (Index2 > 0)
-						Sub = (big._StrData[Index2] - '0') - (_StrData[Index1] - '0') + Step;
+						Sub = (s2[Index2] - '0') - (s1[Index1] - '0') + Step;
 					else
-						Sub = (_StrData[Index1] - '0') + Step;
+						Sub = (s1[Index1] - '0') + Step;
 					if (Sub < 0)
 					{
-						Sub = (big._StrData[Index2] - '0') + 10 - (_StrData[Index1] - '0') + Step;
+						Sub = (s2[Index2] - '0') + 10 - (s1[Index1] - '0') + Step;
 						Step = -1;
 					}
 					else
@@ -332,12 +348,12 @@ string BigData::_SUB(const BigData& big)
 				while (Index1 != 0)
 				{
 					if (Index2 > 0)
-						Sub = (big._StrData[Index1] - '0') - (_StrData[Index2] - '0') + Step;
+						Sub = (s2[Index1] - '0') - (s1[Index2] - '0') + Step;
 					else
-						Sub = (_StrData[Index1] - '0') + Step;
+						Sub = (s1[Index1] - '0') + Step;
 					if (Sub < 0)
 					{
-						Sub = (big._StrData[Index1] - '0') + 10 - (_StrData[Index2] - '0') + Step;
+						Sub = (s2[Index1] - '0') + 10 - (s1[Index2] - '0') + Step;
 						Step = -1;
 					}
 					else
@@ -353,6 +369,163 @@ string BigData::_SUB(const BigData& big)
 	return ret;
 }
 
+string BigData::_MUL(string s1, string s2)
+{	
+	int dis = 0;
+	int left = s1.size()-1;
+	int right = s2.size()-1;
+	bool th = true;
+	int mul = 0;
+	int step = 0;
+	if (left > right)
+	{
+		swap(left, right);
+		th = false;
+	}
+
+	string ret;
+	ret.resize(s1.size() + s2.size() - 1);
+	int index = left + right;
+	if (s1[0] == s2[0])
+		ret[0] = '+';
+	else
+		ret[0] = '-';
+
+	for (int i = left; i > 0; --i)
+	{
+		for (int j = right; j > 0; --j)
+		{
+			if (th)
+			{
+				mul = (s1[i] - '0')*(s2[j] - '0') + step;
+			}
+			else
+			{
+				mul = (s2[i] - '0')*(s1[j] - '0') + step;
+			}
+			if (dis != 0 && ret[index -dis] != '\0')
+			{
+				mul += ret[index - dis]-'0';
+			}
+			if (mul >= 10)
+			{
+				step = mul / 10;
+				mul = mul % 10;
+			}
+			else
+				step = 0;
+			ret[index - dis] = mul + '0';
+			index--;
+		}
+		dis++;
+		index = left + right;
+		step = 0;
+	}
+
+	CleanZero(ret);
+	return ret;
+}
+
+int BigData::Bigger(string s1, string s2)
+{
+	int len1 = s1.size();
+	int len2 = s2.size();
+	if (len1 > len2)
+		return 1;
+	if (len1 == len2)
+	{
+		//s1大于s2
+		if (s1.compare(s2) > 0)
+			return 1;
+		//等于
+		else if (s1.compare(s2) == 0)
+			return 0;
+		//小于
+		else
+			return -1;
+	}
+	else
+		return -1;
+}
+
+string BigData::_DIV(string s1,string s2)
+{
+	string result = "+0";
+	int len1 = s1.size();
+	int len2 = s2.size();
+	
+
+	if (len1 < len2)
+		return "0";
+	
+	int index = 0;
+	string count = "+1";
+	string onenumber = "+0";
+
+	string  subtrahend="+";
+	if (s1[0] == s2[0])
+		result[0] = '+';
+	else
+		result[0] = '-';
+	
+//	subtrahend[0] = '+';
+	//初始化余数值
+	for (int i = 1; i < len1; i++)
+	{
+		subtrahend.push_back(s1[i]);
+	}
+	index = len1 - len2;
+	
+	//初始化商值
+	while (index > 0)
+	{
+		count.push_back('0');
+		index--;
+	}
+
+	for (int j = len2 - 1; j < len1; j++)
+	{
+		if (Bigger(subtrahend, s2) == -1)
+		{
+			string tmp = "0";
+			tmp[0] = s1[j];
+			
+			//余数
+			subtrahend = _ADD(_MUL(subtrahend, "10"), tmp);
+			tmp = "0";
+			count.pop_back();
+		}
+
+		while (Bigger(subtrahend, s2) >= 0)
+		{
+			subtrahend = _SUB(subtrahend, s2);
+			onenumber = _ADD(onenumber ,"+1");
+			CleanZero(onenumber);
+			CleanZero(subtrahend);
+		}
+		result = _ADD(result, _MUL(onenumber, count));
+		onenumber = "+0";
+
+	}
+	return result;
+}
+
+
+void BigData::CleanZero(string& st)
+{
+	if ((st[1] == '0' || st[1] == '\0') && st.size() != 2)
+	{
+		int Index = 1;
+		while (st[Index] == '0'||st[Index] == '\0')
+			Index++;
+		int Slow = 1;
+		while (st[Index] != '\0')
+		{
+			st[Slow++] = st[Index++];
+		}
+		st.resize(Slow);
+	}
+}
 
 ostream& operator<<(std::ostream& os, const BigData big)
 {
@@ -363,7 +536,7 @@ ostream& operator<<(std::ostream& os, const BigData big)
 		if (big._StrData[0] == '+')
 		{
 			size_t i = 1;
-			while (big._StrData[i] == '0')
+			while (big._StrData[i] == '0' || big._StrData[i] == 0)
 				i++;
 			for (i; i < big._StrData.size(); i++)
 			{
@@ -377,3 +550,4 @@ ostream& operator<<(std::ostream& os, const BigData big)
 		os << "error!";
 	return os;
 }
+
