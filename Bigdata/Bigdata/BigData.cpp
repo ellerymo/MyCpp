@@ -459,15 +459,21 @@ int BigData::Bigger(string s1, string s2)
 string BigData::_DIV(string s1,string s2)
 {
 	string result = "+0";
-	int len1 = s1.size();
-	int len2 = s2.size();
+	int left = s1.size()-1;
+	int right = s2.size()-1;
 	
 
-	if (len1 < len2)
+	if (left < right)
 		return "0";
+	if (s2 == "+0")
+	{	
+		cout << "error,We will end the prog!" << endl;
+		getchar();
+		exit(EXIT_FAILURE);
+	}
 	
 	int index = 0;
-	string count = "+1";
+
 	string onenumber = "+0";
 
 	string  subtrahend="+";
@@ -476,32 +482,37 @@ string BigData::_DIV(string s1,string s2)
 	else
 		result[0] = '-';
 	
-//	subtrahend[0] = '+';
+	subtrahend[0] = '+';
+
 	//初始化余数值
-	for (int i = 1; i < len1; i++)
+	for (int i = 1; i <= right; i++)
 	{
 		subtrahend.push_back(s1[i]);
 	}
-	index = len1 - len2;
 	
-	//初始化商值
-	while (index > 0)
+	index = left - right;
+	bool chag1 = false;
+	bool chag2 = false;
+	if (s1[0] == '-')
 	{
-		count.push_back('0');
-		index--;
+		s1[0] = '+';
+		chag1 = true;
 	}
-
-	for (int j = len2 - 1; j < len1; j++)
+	if (s2[0] == '-')
 	{
+		s2[0] = '+';
+		chag2 = true;
+	}
+	for (int j = right; j <= left; j++)
+	{	
 		if (Bigger(subtrahend, s2) == -1)
 		{
-			string tmp = "0";
-			tmp[0] = s1[j];
+			string tmp = "+0";
+			tmp[1] = s1[j];
 			
 			//余数
-			subtrahend = _ADD(_MUL(subtrahend, "10"), tmp);
+			subtrahend = _ADD(_MUL(subtrahend, "+10"), tmp);
 			tmp = "0";
-			count.pop_back();
 		}
 
 		while (Bigger(subtrahend, s2) >= 0)
@@ -510,11 +521,16 @@ string BigData::_DIV(string s1,string s2)
 			onenumber = _ADD(onenumber ,"+1");
 			CleanZero(onenumber);
 			CleanZero(subtrahend);
-		}
-		result = _ADD(result, _MUL(onenumber, count));
+		} 
+		result = _ADD(_MUL(result,"+10"), onenumber);
 		onenumber = "+0";
-
 	}
+	if (chag1)
+		s1[0] = '-';
+	if (chag2)
+		s2[0] = '-';
+	if (s2[0] != s1[0])
+		result[0] = '-';
 	return result;
 }
 
@@ -524,14 +540,23 @@ void BigData::CleanZero(string& st)
 	if ((st[1] == '0' || st[1] == '\0') && st.size() != 2)
 	{
 		int Index = 1;
-		while (st[Index] == '0'||st[Index] == '\0')
+		while (st[Index] == '0' || st[Index] == '\0')
+		{
 			Index++;
+			if (Index == st.size())
+			{
+				st = "+0";
+				st.resize(2);
+				return;
+			}
+		}
 		int Slow = 1;
-		while (st[Index] != '\0')
+		while (st[Index] != '\0' )
 		{
 			st[Slow++] = st[Index++];
 		}
 		st.resize(Slow);
+
 	}
 }
 

@@ -639,7 +639,7 @@ int main()
 	return 0;
 }
 #endif
-#if 1
+#if 0
 //查找树的子结构
 struct BinaryTreeNode
 {
@@ -674,4 +674,30 @@ bool IsContain(BinaryTreeNode * pRoot1, BinaryTreeNode* pRoot2)
 	}
 	return resualt;
 }
+#endif
+
+#if 1
+struct BinaryTreeNode
+{
+	int _value;
+	BinaryTreeNode *_left;
+	BinaryTreeNode *_right;
+	BinaryTreeNode(const int& x = 0) :_value(x), _left(NULL), _right(NULL)
+	{}
+};
+void Mirror(BinaryTreeNode* root)
+{
+	if (root == NULL)
+		return;
+	_Mirror(root->_left,root->_right);
+}
+void _Mirror(BinaryTreeNode * left, BinaryTreeNode *right)
+{
+	if (left == NULL || right == NULL)
+		return;
+	swap(left->_value, right->_value);
+	_Mirror(left->_left, left->_right);
+	_Mirror(right->_left, right->_right);
+}
+
 #endif

@@ -32,11 +32,15 @@ void testMUL()
 
 void testDIV()
 {
-	BigData big("12345");
-	BigData sma("1234");
+	BigData big("123");
+	BigData sma("1");
 	cout << big / sma << endl;
 }
-
+void testString()
+{
+	string s1("123");
+	cout << s1 << endl;
+}
 int main()
 {
 	testDIV();
