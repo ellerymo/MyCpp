@@ -676,7 +676,7 @@ bool IsContain(BinaryTreeNode * pRoot1, BinaryTreeNode* pRoot2)
 }
 #endif
 
-#if 1
+#if 0
 struct BinaryTreeNode
 {
 	int _value;
@@ -700,4 +700,57 @@ void _Mirror(BinaryTreeNode * left, BinaryTreeNode *right)
 	_Mirror(right->_left, right->_right);
 }
 
+#endif
+#if 1
+int Mixtr[][4] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+void PrintMix(int Mixtr[4][4], int Start, int col, int row)
+{
+	int i = Start;
+	int j = Start;
+	while (j < col)
+	{	
+		cout << Mixtr[i][j] << " ";
+		j++;
+	}
+	j--;
+	i++;
+	while (i < row)
+	{	
+		cout << Mixtr[i][j] << " ";
+		i++;
+	}
+	i--;
+	j--;
+	while (j >= Start)
+	{
+		cout << Mixtr[i][j] << " ";
+		j--;
+	}
+	j++;
+	i--;
+	while (i > Start)
+	{
+		cout << Mixtr[i][j] << " ";
+		i--;
+	}
+	
+}
+void PrintMixtrInClock(int Mixtr[4][4],int col,int row)
+{
+	if (Mixtr == NULL || col == 0 || row == 0)
+		return;
+	int Start = 0;
+	while (col > Start*2 && row > Start *2)
+	{
+		PrintMix(Mixtr,Start, col, row);
+		col--;
+		row--;
+		Start++;
+	}
+}
+int main()
+{
+	PrintMixtrInClock(Mixtr, 4, 4);
+	getchar();
+}
 #endif

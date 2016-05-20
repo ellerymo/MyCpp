@@ -570,7 +570,17 @@ ostream& operator<<(std::ostream& os, const BigData big)
 		{
 			size_t i = 1;
 			while (big._StrData[i] == '0' || big._StrData[i] == 0)
+			{
+				if (i == big._StrData.size()-1)
+				{
+					os << "0";
+					return os;
+				}
 				i++;
+			
+			}
+				
+
 			for (i; i < big._StrData.size(); i++)
 			{
 				os << big._StrData[i];
