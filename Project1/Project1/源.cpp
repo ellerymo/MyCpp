@@ -701,7 +701,8 @@ void _Mirror(BinaryTreeNode * left, BinaryTreeNode *right)
 }
 
 #endif
-#if 1
+#if 0
+//æÿ’ÛµƒÀ≥ ±’Î ‰≥ˆ
 int Mixtr[][4] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
 void PrintMix(int Mixtr[4][4], int Start, int col, int row)
 {
@@ -753,4 +754,8 @@ int main()
 	PrintMixtrInClock(Mixtr, 4, 4);
 	getchar();
 }
+#endif
+
+#if 1
+
 #endif

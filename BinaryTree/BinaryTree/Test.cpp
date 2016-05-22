@@ -23,9 +23,15 @@ void test()
 	cout << b3.Find(9) << endl;
 
 }
+void test2()
+{
+	int arr[] = { 1, 2, '#', 3, '#', '#', 4, 5, '#', '#', 6 };
+	BinaryTree b1(arr, sizeof(arr) / sizeof(arr[0]), '#');
+	b1.LevelOrder();
+}
 int main()
 {
-	test();
+	test2();
 	getchar();
 	return 0;
 }

@@ -156,7 +156,7 @@ void DList::RemoveAll(DataType d)
 }
 void DList::sort()
 {
-	int ret = getLen();
+	/*int ret = getLen();
 	Node *cur = _head;
 	for (int i = 0; i < ret - 1; i++)
 	{
@@ -167,6 +167,19 @@ void DList::sort()
 				swap(p->_data,(p->_next)->_data);
 			p = p->_next;
 		}
+	}*/
+	Node *end = NULL;
+	Node *cur = _head;
+	while (cur != end)
+	{
+		while (cur->_next && cur->_next != end)
+		{
+			if (cur->_data > (cur->_next)->_data)
+				swap(cur->_data, (cur->_next)->_data);
+			cur = cur->_next;
+		}
+		end = cur;
+		cur = _head;
 	}
 }
 void DList::Reverse()

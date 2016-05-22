@@ -279,18 +279,19 @@ private:
 	{
 		queue<BinaryTreeNode *> q;
 		BinaryTreeNode *cur = _root;
-		if (_root)
-			q.push(_root);
-		while(!q.empty())
+		if (cur)
+		{
+			q.push(cur);
+		}
+		while (!q.empty())
 		{
 			BinaryTreeNode* top = q.front();
-			cout << top->_data << " ";
 			if (top->_left)
 				q.push(top->_left);
 			if (top->_right)
 				q.push(top->_right);
 			q.pop();
+			cout << top->_data << " ";
 		}
 	}
-
 };
