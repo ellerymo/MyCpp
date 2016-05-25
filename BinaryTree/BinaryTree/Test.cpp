@@ -1,7 +1,7 @@
 #include"BinaryTree.h"
 void test()
 {
-	int arr[] = { 1, 2, '#', 3, '#', '#', 4, 5,'#','#',6};
+	int arr[] = { 1, 2, '#', 3, '#', '#', 4, 2,'#','#',6};
 	BinaryTree b1(arr,sizeof(arr)/sizeof(arr[0]),'#');
 	BinaryTree b2(b1);
 	BinaryTree b3 = b1;
@@ -29,9 +29,15 @@ void test2()
 	BinaryTree b1(arr, sizeof(arr) / sizeof(arr[0]), '#');
 	b1.LevelOrder();
 }
+void test3()
+{
+	int arr[] = { 1, 2, '#', 3, '#', '#', 4, 1, '#', '#', 6 };
+	BinaryTree b1(arr, sizeof(arr) / sizeof(arr[0]), '#');
+	b1.FindIt(6);
+}
 int main()
 {
-	test2();
+	test3();
 	getchar();
 	return 0;
 }

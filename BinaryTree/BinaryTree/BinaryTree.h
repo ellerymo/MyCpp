@@ -156,7 +156,45 @@ public:
 		BinaryTreeNode *ret = _Find(_root, key);
 		return ret;
 	}
-
+	void FindIt(const int key)
+	{
+		vector<BinaryTreeNode* > v;
+		int sum = 0;
+		_FindRoadInSomeSize(v, key, _root, sum);
+	}
+	void _FindRoadInSomeSize(vector<BinaryTreeNode *>& v,const int key,BinaryTreeNode*root,int & sum)
+	{
+		//如果已经到了叶子节点并且路径长度不等于规定长度
+		if (root == NULL && sum < key)
+		{
+			//v.pop_back();
+			return;
+		}
+		if (root != NULL)
+		{
+			sum += root->_data;
+			v.push_back(root);
+		}
+		if (sum == key)
+		{
+			for (int i = 0; i < v.size(); ++i)
+			{
+				cout << v[i]->_data << " ";
+			}
+			cout << endl;
+			v.pop_back();
+			sum -= root->_data;
+			return;
+		}
+		else if (sum < key)
+		{
+			_FindRoadInSomeSize(v,key, root->_left, sum);
+			_FindRoadInSomeSize(v, key, root->_right, sum);
+		}
+		v.pop_back();
+		sum -= root->_data;
+		return;
+	}
 private:
 	BinaryTreeNode * _Find(BinaryTreeNode *root, const DataType & key)
 	{

@@ -756,7 +756,7 @@ int main()
 }
 #endif
 
-#if 1
+#if 0
 
 #include<stack>
 using namespace std;
@@ -789,6 +789,47 @@ int main()
 	int in[] = { 1, 2, 3, 4, 5 };
 	int out[] = { 5, 4, 2, 3, 1 };
 	cout << CheckOrderOfOutStack(in, out, sizeof(in) / sizeof(in[0])) << endl;
+	getchar();
+	return 0;
+}
+#endif
+
+#if 1
+//输入一个整数数组，判断该数组是不是某个二叉搜索树的后序遍历结果
+bool IsBinarySearchPostOrder(int *arr,int size)
+{
+	if (arr == NULL)
+		return false;
+	int root = arr[size - 1];
+	//确定左子树的位置
+	int i = 0;
+	for (; i < size; i++)
+	{
+		//左子树一直小于根节点
+		if (arr[i] > root)
+			break;
+	}
+	int j = i;
+	for (; j < size; j++)
+	{
+		//如果已经进入右子树的界定范围那么出现了右子树小于根节点则视为错误情况
+		if (arr[j] < root)
+			return false;
+	}
+	bool left = true;
+	if (i > 0)
+		left = IsBinarySearchPostOrder(arr, i);
+	bool right = true;
+	if (j < size - 1)
+		right = IsBinarySearchPostOrder(arr + i, size - 1 - i);
+	
+	//左子树及右子树都是搜索树的后续遍历则正确
+	return (left && right);
+}
+int main()
+{
+	int arr[] = { 2, 3, 1, 5, 6, 3, 5 };
+	cout << IsBinarySearchPostOrder(arr, sizeof(arr) / sizeof(arr[0]))<<endl;
 	getchar();
 	return 0;
 }
