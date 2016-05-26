@@ -794,7 +794,7 @@ int main()
 }
 #endif
 
-#if 1
+#if 0
 //输入一个整数数组，判断该数组是不是某个二叉搜索树的后序遍历结果
 bool IsBinarySearchPostOrder(int *arr,int size)
 {
@@ -833,4 +833,109 @@ int main()
 	getchar();
 	return 0;
 }
+#endif
+#if 1
+struct ComlistNode
+{
+	int _data;
+	ComlistNode* _next;
+	ComlistNode* _random;
+	ComlistNode(const int& data) :
+		_data(data), _next(NULL), _random(NULL)
+	{}
+};
+class Comlist
+{
+	typedef ComlistNode Node;
+private:
+	Node* _head;
+public:
+	Comlist() :_head(NULL)
+	{
+		_create();
+	}
+	void pushback(const int i)
+	{
+		if (_head == NULL)
+		{
+			
+			_head = new Node(i);
+			return;
+		}
+		Node*cur = _head;
+		while (cur->_next)
+		{
+			cur = cur->_next;
+		}
+		cur->_next = new Node(i);
+	}
+	Comlist(Comlist& list)
+	{
+		Clone(list);
+
+	}
+	 
+
+private:
+	void Clone(Comlist& list)
+	{
+		Node *cur = list._head;
+		while (cur)
+		{
+			Node * curClone = new Node(cur->_data);
+			curClone->_next = cur->_next;
+			cur->_next = curClone;
+			cur = curClone->_next;
+		}
+		Node *phead = list._head;
+		Node *cloneNode = NULL;
+		Node *cloneHead = NULL;
+		if (phead)
+		{
+			cloneHead = cloneNode = phead->_next;
+			cloneNode->_random = (phead->_random)->_next;
+			phead->_next = cloneNode->_next; 
+			phead = phead->_next;
+		}
+		while (phead)
+		{
+			cloneNode->_next = phead->_next;
+			cloneNode = cloneNode->_next;
+			phead->_next = cloneNode->_next;
+			phead = phead->_next;
+		}
+		_head = cloneHead;
+		
+	}
+	void _create()
+	{
+
+		pushback(1);
+		pushback(2);
+		pushback(3);
+		pushback(4);
+		pushback(5);
+		Node *cur = _head;
+		while (cur != NULL)
+		{
+			Node *now = cur;                                                                                                                                                          
+			int index = 3;
+			while (--index && cur)
+			{
+				cur = cur->_next;
+			}
+			now->_random = cur;
+			cur = now;
+			cur = cur->_next;
+		}
+	}
+};
+int main()
+{
+	Comlist cm;
+	Comlist cc(cm);
+	getchar();
+	return 0;
+}
+
 #endif

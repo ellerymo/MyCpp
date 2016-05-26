@@ -4,36 +4,28 @@ using namespace std;
 
 void testOSADD()
 {
-	BigData big1("123");
-	cout << big1 << endl;
-	BigData big2("9999999999999999999999999999999999999999999999999");
-	cout << big2 << endl;
-	BigData big3("1111111111111111111111111111111111");
-	cout << big3 << endl;
-	BigData big4(123456789);
-	cout << big4 << endl;
+	BigData big1("-123");
+	BigData big3(-9223372036854775807);
 	cout << (big1 + big3) << endl;
-	cout << (big1 + big4) << endl;
-	BigData big("0");
 }
 void testSUB()
 {
-	BigData big("1234567890234567");
-	BigData sma("-233333452213");
+	BigData big(9223372036854775807);
+	BigData sma("447899");
 	cout << big - sma << endl;
 
 }
 void testMUL()
 {
-	BigData big("123");
-	BigData sma("2345");
+	BigData big("99999999999999999999999999999999");
+	BigData sma("11");
 	cout << big * sma << endl;
 }
 
 void testDIV()
 {
-	BigData big("12345");
-	BigData sma("-1");
+	BigData big("22222222222222222222222222222222");
+	BigData sma("33");
 	cout << big / sma << endl;
 }
 void testString()
@@ -43,7 +35,11 @@ void testString()
 }
 int main()
 {
-	testDIV();
+//	testOSADD();
+//	testSUB();
+//	testMUL();
+//	testDIV();
+	testString();
 	getchar();
 	return 0;
 }
