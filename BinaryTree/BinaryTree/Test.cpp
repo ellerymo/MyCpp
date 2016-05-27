@@ -35,9 +35,15 @@ void test3()
 	BinaryTree b1(arr, sizeof(arr) / sizeof(arr[0]), '#');
 	b1.FindIt(6);
 }
+void test4()
+{
+	int arr[] = { 10, 8, 6, '#', '#', 9, '#', '#', 12, 11, '#', '#', 13 };
+	BinaryTree b(arr, sizeof(arr) / sizeof(arr[0]), '#');
+	b.Change();
+}
 int main()
 {
-	test3();
+	test4();
 	getchar();
 	return 0;
 }

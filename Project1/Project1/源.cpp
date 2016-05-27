@@ -869,44 +869,7 @@ public:
 		}
 		cur->_next = new Node(i);
 	}
-	Comlist(Comlist& list)
-	{
-		Clone(list);
-
-	}
-	 
-
-private:
-	void Clone(Comlist& list)
-	{
-		Node *cur = list._head;
-		while (cur)
-		{
-			Node * curClone = new Node(cur->_data);
-			curClone->_next = cur->_next;
-			cur->_next = curClone;
-			cur = curClone->_next;
-		}
-		Node *phead = list._head;
-		Node *cloneNode = NULL;
-		Node *cloneHead = NULL;
-		if (phead)
-		{
-			cloneHead = cloneNode = phead->_next;
-			cloneNode->_random = (phead->_random)->_next;
-			phead->_next = cloneNode->_next; 
-			phead = phead->_next;
-		}
-		while (phead)
-		{
-			cloneNode->_next = phead->_next;
-			cloneNode = cloneNode->_next;
-			phead->_next = cloneNode->_next;
-			phead = phead->_next;
-		}
-		_head = cloneHead;
-		
-	}
+ 
 	void _create()
 	{
 

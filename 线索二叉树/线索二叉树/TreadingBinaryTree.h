@@ -143,6 +143,7 @@ protected:
 		if (root->_left)
 			prev = cur;
 		_PrevOrderTh(root->_left,prev);
+		
 		if (!cur->_left && cur->_leftTag != THREAD)
 		{
 			cur->_left = prev;

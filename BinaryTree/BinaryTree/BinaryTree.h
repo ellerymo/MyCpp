@@ -167,7 +167,6 @@ public:
 		//如果已经到了叶子节点并且路径长度不等于规定长度
 		if (root == NULL && sum < key)
 		{
-			//v.pop_back();
 			return;
 		}
 		if (root != NULL)
@@ -195,7 +194,26 @@ public:
 		sum -= root->_data;
 		return;
 	}
-private:
+	void Change()
+	{
+		BinaryTreeNode *prev = NULL;
+		_ChangeToList(_root, prev);
+	}
+private:	
+	void _ChangeToList(BinaryTreeNode *root, BinaryTreeNode *& prev)
+	{
+	
+		if (!root)
+			return;
+		_ChangeToList(root->_left,prev);
+		if (prev )
+		{
+			root->_left = prev;
+			prev->_right= root;
+		}
+		prev = root;
+		_ChangeToList(root->_right, prev);
+	}
 	BinaryTreeNode * _Find(BinaryTreeNode *root, const DataType & key)
 	{
 		if (!root)
