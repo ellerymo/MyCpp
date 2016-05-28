@@ -206,7 +206,7 @@ private:
 		if (!root)
 			return;
 		_ChangeToList(root->_left,prev);
-		if (prev )
+		if (prev)
 		{
 			root->_left = prev;
 			prev->_right= root;
