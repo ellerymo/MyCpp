@@ -834,7 +834,7 @@ int main()
 	return 0;
 }
 #endif
-#if 1
+#if 0
 struct ComlistNode
 {
 	int _data;
@@ -872,7 +872,6 @@ public:
  
 	void _create()
 	{
-
 		pushback(1);
 		pushback(2);
 		pushback(3);
@@ -901,4 +900,70 @@ int main()
 	return 0;
 }
 
+#endif
+
+#if 0
+
+void _Porder(char *str, char *ptr)
+{
+	if (*ptr == '\0')
+		cout << str << endl;
+	else
+	{
+		for (char *pch = ptr; *pch != '\0'; pch++)
+		{
+			swap(*pch, *ptr);
+			_Porder(str, ptr + 1);
+			swap(*pch, *ptr);
+		}
+	}
+}
+
+void Order(char *str)
+{
+	if (*str == '\0')
+		return;
+	_Porder(str, str);
+}
+int  main()
+{
+	char str[] = "abc";
+	Order(str);
+	getchar();
+	return 0;
+}
+#endif
+#if 0
+int main()
+{
+	printf("hello world");
+	_exit(0);
+}
+#endif
+
+#if 1
+int FindNumber(int *arr,int lenth)
+{
+	int resualt = arr[0];
+	int time = 1;
+	for (int i = 1; i < lenth; i++)
+	{
+		if (resualt == arr[i])
+			time++;
+		else if (time == 0)
+			resualt = arr[i];
+		else
+			time--;
+	}
+	return resualt;
+}
+
+int main()
+{
+	int arr[] = { 2, 2, 2, 2, 2, 4, 4, 5, 3};
+	cout << FindNumber(arr, sizeof(arr) / sizeof(arr[0]));
+	getchar();
+	return 0;
+
+}
 #endif
