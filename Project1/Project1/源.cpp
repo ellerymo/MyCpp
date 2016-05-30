@@ -941,7 +941,7 @@ int main()
 }
 #endif
 
-#if 1
+#if 0
 int FindNumber(int *arr,int lenth)
 {
 	int resualt = arr[0];
@@ -965,5 +965,47 @@ int main()
 	getchar();
 	return 0;
 
+}
+#endif
+#if 1
+//找到数组里最小几位数
+//方法1
+void FindMinKInArr(int *arr,int k, size_t size)
+{
+	int key = arr[k - 1];
+	while (1)
+	{
+		int index1 = size - 1;
+		while (index1 > k - 1 && arr[index1] > arr[k - 1])
+		{
+			index1--;
+		}
+		int index2 = 0;
+		while (index2 < k - 1 && arr[index2] < arr[k - 1])
+		{
+			index2++;
+		}
+		swap(arr[index1], arr[index2]);
+		if (index1 == index2)
+			break;
+	}
+	int Count = 0;
+	while (Count<k)
+	{
+		cout << arr[Count]<<" ";
+		Count++;
+	}
+	cout << endl;
+
+}
+//方法2
+//利用STL红黑树
+
+int main()
+{
+	int arr[] = { 1, 3, 5, 4, 2, 0, 9 };
+	FindMinKInArr(arr, 3, sizeof(arr) / sizeof(arr[0]));
+	getchar();
+	return 0;
 }
 #endif
