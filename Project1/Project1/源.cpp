@@ -1000,7 +1000,6 @@ void FindMinKInArr(int *arr,int k, size_t size)
 }
 //方法2
 //利用STL红黑树
-
 int main()
 {
 	int arr[] = { 1, 3, 5, 4, 2, 0, 9 };
@@ -1008,4 +1007,41 @@ int main()
 	getchar();
 	return 0;
 }
+#endif
+
+#if 0
+/*
+	解法一：利用保存最大值计算
+			在本次进入循环的sum小于0时一定表示下一次加时会减小之后的和——>摒弃之前的数字从当前值开始计算
+			否则直接将当前值加给sum 
+			如果本次加的sum大于max则一定更新max
+			如果并没有的话则保持该max不变
+*/
+int MaxSumInArr(int *arr, int size)
+{
+	if (arr == NULL)
+		return 0;
+	int sum = 0;
+	int Max = 0;
+	for (int i = 0; i < size; i++)
+	{
+		if (sum <= 0)
+			sum = arr[i];
+		else
+			sum += arr[i];
+		if (sum > Max)
+			Max = sum;
+
+	}
+	return Max;
+}
+int main()
+{
+	int arr[] = { 1, -2, 3, 10, -4, 7, 2, -5 };
+	cout << MaxSumInArr(arr, sizeof(arr) / sizeof(arr[0]));
+	cout << endl;
+	getchar();
+	return 0;
+}
+
 #endif
