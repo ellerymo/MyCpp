@@ -967,7 +967,7 @@ int main()
 
 }
 #endif
-#if 1
+#if 0
 //找到数组里最小几位数
 //方法1
 void FindMinKInArr(int *arr,int k, size_t size)
@@ -1044,4 +1044,183 @@ int main()
 	return 0;
 }
 
+#endif
+
+#if 0
+int NumBase10(int n)
+{
+	int sum = 1;
+	for (int i = 0; i < n; i++)
+	{
+		sum *= 10;
+	}
+	return sum;
+}
+//计算从0到n的过程里数字1出现的次数
+int NumOfOne(const char * str)
+{
+	if ( !str || *str > '9' || *str < '0')
+		return 0;
+	//first用于标记最高位的数字
+	int first = *str - '0';
+	int lenth = strlen(str);
+	/*
+		当最后一次递归进来时个位出现的1个个数只有两种情况:
+		1.个位是0，则1出现的次数是0
+		2.个位大于0，则1出现的次数是1
+	*/
+	if (lenth == 1 && *str == '0')
+		return 0;
+	if (lenth == 1 && *str > '0')
+		return 1;
+
+	/*
+		OneInFirst标记了最高位的1出现了多少次
+		此处分为两种情况：
+		1.最高位为1，则出现了剩余的位数的数字+1次，比如132，则最高位出现的1的次数为100到132共33次
+		2.最高位大于1,则1一定出现了100次，比如232,最高位出现的1的次数是100到199共100次
+	*/
+	int  OneInFirst = 0;
+	if (first == 1)
+		OneInFirst = atoi(str + 1) + 1;
+	if (first > 1)
+		OneInFirst = NumBase10(lenth - 1);
+	//?
+	int OneInOther = first *(lenth-1)*NumBase10(lenth-2);
+
+	int Remainder = NumOfOne(str + 1);
+
+	return OneInFirst+OneInOther+Remainder;
+}
+long CountOne(long n)
+{
+	long count = 0;
+	if (n == 0)
+		count = 0;
+	else if (n > 1 && n < 10)
+	count = 1;
+	else
+	{
+		//用highest表示最高位的数字
+		long highest = n;
+		int bit = 0;
+		while (highest >= 10)
+		{
+				highest = highest / 10;
+				bit++;
+		}
+		//最高位的权重
+		int weight = (int)pow(10, bit);
+		if (highest == 1)
+		{
+				//eg: f(132) = f(100-1) + f(132-100) + (32+1);
+				count = CountOne(weight - 1)+ CountOne(n - weight)+ n - weight + 1;
+		}
+		else
+		{		
+			//  eg: f(232) = 2*f(100-1) + f(32) + 100
+				count = highest * CountOne(weight - 1)+ CountOne(n - highest * weight)+ weight;			
+		}		
+	}	
+	return count;
+}
+
+
+int main()
+{
+	cout << NumOfOne("1000") << endl;
+	cout << CountOne(1000) << endl;
+	getchar();
+	return 0;
+}
+#endif
+
+#if 0
+//水仙花数
+void DafNum(int m,int n)
+{
+	int num = 0;
+	int sum = 0;
+	for (int i = m;i <= n; i++)
+	{
+		num = i;
+		sum = 0;
+ 		while (num)
+		{
+			sum += (num % 10)*(num%10)*(num % 10);
+			num = num /10;
+		}
+		if (sum == i)
+			cout << i << " ";
+	}
+	cout << endl;
+}
+int main()
+{
+	DafNum(100,1000);
+	getchar();
+	return 0;
+}
+#endif
+
+#if 0
+int Sum(int a, int n)
+{
+	int num = a;
+	int sum = a;
+	for (int i = 1; i < n; i++)
+	{
+		num = num * 10;
+		sum += num + a;
+		num = num + a;
+	}
+	return sum;
+}
+int main()
+{
+	cout << Sum(2, 3) << endl;
+	
+	getchar();
+	return 0;
+}
+#endif
+
+#if 0
+void Reverse(char *left,char *right)
+{
+	while (left < right)
+	{
+		swap(*left, *right);
+		left++;
+		right--;
+	}
+}
+void ReverseStr(char *str,int size)
+{
+	char *end = str + (size - 2);
+	Reverse(str, end);
+	end = str;
+	char *start = str;
+	while (end != '\0')
+	{
+		while (*end != ' ' && *end != '\0')
+			end++;
+		Reverse(start, end - 1);
+		if (*end == '\0')
+			return;
+		start = end + 1;
+		end++;
+	}
+}
+int main()
+{
+	char str[] = "abcde";
+	Reverse(str, str + 4);
+	cout << str << endl;
+	char arr[] = "This is a test";
+	ReverseStr(arr, sizeof(arr) / sizeof(arr[0]));
+	cout << arr << endl;
+	getchar();
+	return 0;
+}
 #endif
