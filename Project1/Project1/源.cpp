@@ -1224,3 +1224,149 @@ int main()
 	return 0;
 }
 #endif
+#if 0
+void sort(int x[], int n)
+{
+	int i, j, k, t;
+	for (i = 0; i < n; i++)
+	{
+		k = i;
+		for (j = i + 1; j < n; j++)
+		{
+			if (x[k] > x[j])
+				k = j;
+			if (i != k)
+			{
+				t = x[k];
+				x[k] = x[i];
+				x[i] = t;
+			}
+		}
+	}
+}
+int  main()
+{
+	int a[10] = { 44, 50, 89, 67, 103, 8, 75, 30, 125, 150 };
+	sort(a, 10);
+	for (int i = 0; i < 10; i++)
+		printf("%10d", a[i]);
+	getchar();
+	return 0;
+}
+#endif
+
+#if 0
+int main()
+{
+	char n;
+	int a = 10, b = 20;
+	for (n = 'a'; n <= 'd';n+=2)
+	switch (n)
+	{
+	case 'a':
+		printf("a+b =%d", a + b);
+		break;
+	case 'b':
+		printf("a-b =%d", a - b);
+		break;
+	case 'c':
+		printf("a*b =%d", a * b);
+		break;
+	case 'd':
+		printf("a/b =%d", a / b);
+		break;
+	}
+	getchar();
+	return 0;
+}
+#endif
+#if 0
+void find()
+{
+	for (int i = 1; i <= 200; i++)
+	{
+		if (i % 7 == 0)
+			printf("%d  ", i);
+	}
+}
+int main()
+{
+	find();
+	getchar();
+	return 0;
+}
+#endif
+
+#if 0
+void Print()
+{
+	int i, j, k,t;
+	i = 3;
+	j = 1;
+	int Count = 1;
+	while (Count <=  4)
+	{
+
+		for (k = i; k > 0;k--)
+			printf(" ");
+		for (t = 0; t < j; t++)
+			printf("%d", Count);
+		printf("\n");
+		j += 2;
+		i--;
+		Count++;
+	}
+}
+int main()
+{
+	Print();
+	getchar();
+	return 0;
+}
+#endif
+#if 1
+//³óÊýÎÊÌâ
+int Min(int num1,int num2, int num3)
+{
+	int min = num1 < num2 ? num1 : num2;
+	min = min < num3 ? min : num3;
+	return min;
+}
+int GetUglyNum(int index)
+{
+	if (index <= 0)
+		return -1;
+	int *Ugly = new int[index];
+	Ugly[0] = 1;
+	int nextUglyIndex = 1;
+
+	int  *Ugly2 = Ugly;
+	int  *Ugly3 = Ugly;
+	int  *Ugly5 = Ugly;
+	
+	while (nextUglyIndex < index)
+	{
+		int min = Min(*Ugly2 * 2, *Ugly3 * 3, *Ugly5 * 5);
+		Ugly[nextUglyIndex] = min;
+
+
+		while ((*Ugly2 * 2) <= Ugly[nextUglyIndex])
+			++Ugly2;
+		while ((*Ugly3 * 3) <= Ugly[nextUglyIndex])
+			++Ugly3;
+		while ((*Ugly5 * 5) <= Ugly[nextUglyIndex])
+			++Ugly5;
+
+		++nextUglyIndex;
+	}
+	int Uglynum = Ugly[nextUglyIndex - 1];
+	delete[] Ugly;
+	return Uglynum;
+}
+int main()
+{
+	cout << GetUglyNum(1500) << endl;
+	getchar();
+	return 0;
+}
+#endif
