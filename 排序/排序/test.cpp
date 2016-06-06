@@ -29,15 +29,22 @@ void testBubble()
 	BubbleSort(arr, sizeof(arr) / sizeof(arr[0]));
 	print(arr, sizeof(arr) / sizeof(arr[0]));
 }
-void testQuik()
+
+void testMerge()
 {
 	int arr[] = { 7, 5, 4, 2, 6, 3, 8, 1, 9, 0 };
-	QuikSort(arr,0,sizeof(arr) / sizeof(arr[0])-1);
+	MergeSort(arr, 0, sizeof(arr) / sizeof(arr[0]) - 1);
 	print(arr, sizeof(arr) / sizeof(arr[0]));
+}
+void testCount()
+{
+	int arr[] = { 7, 5, 4, 2, 6, 3, 8, 1, 9, 0 };
+	CountSort(arr, sizeof(arr) / sizeof(arr[0]));
+//	print(arr, sizeof(arr) / sizeof(arr[0]));
 }
 int main()
 {
-	testQuik();
+	testCount();
 	getchar();
 	return 0;
 }

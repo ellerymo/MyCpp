@@ -1128,7 +1128,7 @@ long CountOne(long n)
 
 int main()
 {
-	cout << NumOfOne("1000") << endl;
+	//cout << NumOfOne("1000") << endl;
 	cout << CountOne(1000) << endl;
 	getchar();
 	return 0;
@@ -1324,7 +1324,7 @@ int main()
 	return 0;
 }
 #endif
-#if 1
+#if 0
 //丑数问题
 int Min(int num1,int num2, int num3)
 {
@@ -1366,6 +1366,40 @@ int GetUglyNum(int index)
 int main()
 {
 	cout << GetUglyNum(1500) << endl;
+	getchar();
+	return 0;
+}
+#endif
+#if 1
+//从1到n 1出现的次数
+long OneFromOneToN(long n)
+{
+	//记录最高位的数字
+	long heigh = n;
+	long bit = 0;
+	while (heigh >= 10)
+	{
+		heigh  /=  10;
+		bit ++;
+	}
+	if (n < 10)
+	{
+		if (heigh >= 1)
+			return 1;
+		else
+			return 0;
+	}
+
+	//计算最高位权重
+	long weight = pow(10, bit);
+	if (heigh > 1)
+		return heigh*OneFromOneToN(weight - 1) + OneFromOneToN(n - weight*heigh) + weight;
+	else
+		return OneFromOneToN(weight - 1) + OneFromOneToN(n - weight) +n-weight+1 ;
+}
+int main()
+{
+	cout << OneFromOneToN(1000) << endl;
 	getchar();
 	return 0;
 }

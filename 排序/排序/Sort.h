@@ -124,6 +124,7 @@ void BubbleSort(int *arr,int n)
 }
 
 //快速排序
+//三位取中法
 void SelectMid(int *arr,int left,int right)
 {
 	int mid = (left + right) / 2;
@@ -179,4 +180,121 @@ void print(int *arr, int n)
 		cout << arr[i] << " ";
 	}
 	cout << endl;
+}
+//快速排序挖坑法
+void QuikSort_OP1(int *arr, int start, int end)
+{
+	SelectMid(arr, start, end);
+	if (start >=  end)
+		return;
+	int key = arr[end];
+	int hoop = end;
+	int left = start;
+	int right = end;
+
+	while (left < right)
+	{
+		while (right >left && arr[left] < key)
+			++left;
+		if (right >left)
+		{
+			arr[hoop] = arr[left];
+			hoop = left;
+		}
+		while (right > left && arr[right] > key)
+			--right;
+		if (right > left)
+		{
+			arr[hoop] = arr[right];
+			hoop = right;
+		}
+	}
+	arr[hoop] = key;
+	
+	QuikSort_OP1(arr, start, hoop-1);
+	QuikSort_OP1(arr, hoop+1,  end);
+}
+//快速排序难以理解的算法3
+void QuikSort_OP2(int *arr, int start, int end)
+{
+	SelectMid(arr, start, end);
+	int  prev = start -1;
+	int cur = start;
+	while (cur < end)
+	{
+		while (arr[cur] > arr[end])
+			cur++;
+		if (cur < end )
+			swap(arr[++prev], arr[cur++]);
+	}
+	swap(arr[end], arr[++prev]);
+	QuikSort(arr, start, prev);
+	QuikSort(arr, prev, end);
+}
+//快速排序的非递归
+void QuikSort_OP3(int *arr, int start, int end)
+{
+
+}
+//归并排序
+void  _Merge(int *arr, int start, int mid,int end)
+{
+	int  i = start, j = mid + 1, p = 0;
+	//申请暂存空间
+	int *tmp = (int *)malloc((end - start + 1)*sizeof (int));
+	//合并两个区间并在tmp里排序
+	while (i <= mid && j <= end)
+	{
+		if (arr[i] < arr[j])
+			tmp[p++] = arr[i++];
+		else
+			tmp[p++] = arr[j++];
+	}
+	while (i <= mid)
+		tmp[p++] = arr[i++];
+	while (j <= end)
+		tmp[p++] = arr[j++];
+	//将tmp的内容拷贝回原数组
+	for (i = start, p = 0; p < (end - start + 1); i++, p++)
+	{
+		arr[i] = tmp[p];
+	}
+	free(tmp);
+}
+void MergeSort(int *arr,int start,int end)
+{
+		int mid = 0;
+		if (start<end)
+		{
+			mid = (start + end) / 2;
+			MergeSort(arr, start, mid);
+			MergeSort(arr, mid + 1, end);
+			_Merge(arr, start, mid, end);
+		}
+}
+//计数排序
+void CountSort(int *arr, int size)
+{
+	int max = 0;
+	for (int i = 0; i < size; i++)
+	{
+		if (arr[i] > max)
+			max = arr[i];
+	}
+	int *count = new int[max+1];
+	memset(count, 0, 10*sizeof(int));
+	for (int i = 0; i <size; i++)
+	{
+		count[arr[i]]++;
+	}
+	for (int i = 0; i <= max; i++)
+	{
+		while (count[i] > 0)
+		{
+			cout << i << " ";
+			count[i]--;
+		}
+	}
+	cout << endl;
+	delete[] count;
 }
