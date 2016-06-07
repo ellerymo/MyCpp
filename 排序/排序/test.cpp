@@ -40,11 +40,17 @@ void testCount()
 {
 	int arr[] = { 7, 5, 4, 2, 6, 3, 8, 1, 9, 0 };
 	CountSort(arr, sizeof(arr) / sizeof(arr[0]));
-//	print(arr, sizeof(arr) / sizeof(arr[0]));
+	print(arr, sizeof(arr) / sizeof(arr[0]));
+}
+void testLSDSort()
+{
+	int arr[] = { 729, 54, 41, 2, 65, 32, 85, 11, 96, 0 };
+	LSDSort(arr, sizeof(arr) / sizeof(arr[0]));
+	print(arr, sizeof(arr) / sizeof(arr[0]));
 }
 int main()
 {
-	testCount();
+	testLSDSort();
 	getchar();
 	return 0;
 }

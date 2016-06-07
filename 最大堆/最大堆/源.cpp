@@ -34,7 +34,7 @@ public:
 	}
 	void Pop()
 	{
-		assert(_a);
+		//assert(_a);
 		swap(_a[_a.size() - 1], _a[0]);
 		_a.pop_back();
 		_AdjustDown(0);

@@ -298,3 +298,50 @@ void CountSort(int *arr, int size)
 	cout << endl;
 	delete[] count;
 }
+//基数排序
+void LSDSort(int *arr,int n)
+{
+	int base = 10;
+	int base2 = 1;
+	int count[10] = { 0 };
+	int start[10] = { 0 };
+	int *bucket = new int[n];
+	//找出最大的数计算需要统计多少位
+	int max = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (arr[i] > max)
+			max = arr[i];
+	}
+	int digit = 0;
+	while (max)
+	{
+		max /= 10;
+		digit++;
+	}
+	while (digit)
+	{
+		//构造记录每个尾数有几个数字
+		for (int i = 0; i < n; i++)
+		{
+			count[(arr[i] /base2) % base]++;
+		}
+		//构造存储开始位置的数组
+		for (int i = 1; i < 10; i++)
+		{
+			start[i] = count[i - 1] + start[i - 1];
+		}
+		
+		for (int i = 0; i < n; i++)
+		{	
+			int num = arr[i];
+			num = (num/base2 )% base;
+			bucket[start[num]++] =arr[i];
+		}
+		memcpy(arr, bucket, sizeof(int)*n);
+		memset(start, 0, 10*sizeof(int));
+		memset(count, 0, 10 * sizeof(int));
+		base2 *= 10;
+		digit --;
+	}
+}
