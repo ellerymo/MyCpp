@@ -10,7 +10,7 @@ struct HuffmanTreeNode
 	HuffmanTreeNode<T>* _right;
 	T _weight;
 	HuffmanTreeNode(const T data = 0)
-		:_weight(data)
+		:_weight(data), _left(NULL), _right(NULL)
 	{}
 };
 
@@ -18,7 +18,7 @@ template<class T>
 class HuffmanTree
 {
 	typedef HuffmanTreeNode<T>  Node;
-protected:
+public:
 	Node * _root;
 public:
 	HuffmanTree(const T *arr, int n, T invalid)
@@ -35,7 +35,7 @@ public:
 			*/
 			Node **node = new Node*[n];
 			int j = 0;
-			for (int i = 0,j =0; i < n; j++,i++)
+			for (int i = 0; i < n; j++, i++)
 			{
 				//当值非法时不给其new节点不让其进入我们构造的小堆中
 				while (i < n && arr[i] == invalid)
@@ -43,7 +43,8 @@ public:
 				if (i != n)
 					node[j] = new Node(arr[i]);
 			}
-			Heap<Node*, Comp> hp(node, j+1);
+			int  n1 = j-1;
+			Heap<Node*, Comp> hp(node, n1);
 			while (hp.size() > 1)
 			{
 				Node*left = hp.top();
