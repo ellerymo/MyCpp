@@ -1370,7 +1370,7 @@ int main()
 	return 0;
 }
 #endif
-#if 0
+#if 1
 //从1到n 1出现的次数
 long OneFromOneToN(long n)
 {
@@ -1389,7 +1389,6 @@ long OneFromOneToN(long n)
 		else
 			return 0;
 	}
-
 	//计算最高位权重
 	long weight = pow(10, bit);
 	if (heigh > 1)
@@ -1405,7 +1404,7 @@ int main()
 }
 #endif
 
-#if 1
+#if 0
 //第一个中出现一次的字符
 char FindOnlyInArr(char *arr,int size)
 {
@@ -1428,3 +1427,68 @@ int main()
 	return 0;
 }
 #endif
+#if 0
+//统计数组里的逆序对
+void Inverse(int *data, int * Copy, int start, int end,int &count)
+{
+	if (start == end)
+	{
+		Copy[start] = data[end];
+		return;
+	}
+	int lenth = (end - start) / 2;
+	Inverse(data, Copy, start, start + lenth,count);
+	Inverse(data, Copy, start + lenth + 1, end,count);
+
+	//前半段的最后一个数字的下标
+	int i = start + lenth;
+	//后半段的最后一个数字的下标
+	int j = end;
+	//Copy数据的第一个位置（从后向前Copy）
+	int indx = end;
+	while (i >= start && j >= start + lenth + 1)
+	{
+		if (data[i] >= data[j])
+		{
+			Copy[indx--] = data[i--];
+			count += j - start - lenth;
+		}
+		else
+		{
+			Copy[indx--] = data[j--];
+		}
+	}
+	for (; i >= start; i--)
+	{
+		Copy[indx--] = data[i--];
+	}
+	for (; j >= start+lenth+1; j--)
+	{
+		Copy[indx--] = data[j--];
+	}
+	memcpy(data + start, Copy+start, (end - start + 1)*sizeof(int));
+}
+int Count(int *arr, int len)
+{
+	assert(len > 0);
+	if (arr == NULL)
+		return 0;
+	int *Copy = new int[len];
+	for (int i = 0; i < len; i++)
+	{
+		Copy[i] = arr[i];
+	}
+
+	int count = 0;
+	Inverse(arr, Copy, 0, len - 1,count);
+	delete[] Copy;
+	return count;
+}
+int main()
+{
+	int arr[] = { 7, 5, 6, 4 };
+	cout << Count(arr, 4) << endl;
+	getchar();
+	return 0;
+}
+#endif 
