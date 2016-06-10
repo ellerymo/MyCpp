@@ -1370,7 +1370,7 @@ int main()
 	return 0;
 }
 #endif
-#if 1
+#if 0
 //从1到n 1出现的次数
 long OneFromOneToN(long n)
 {
@@ -1400,6 +1400,30 @@ long OneFromOneToN(long n)
 int main()
 {
 	cout << OneFromOneToN(1000) << endl;
+	getchar();
+	return 0;
+}
+#endif
+
+#if 1
+//第一个中出现一次的字符
+char FindOnlyInArr(char *arr,int size)
+{
+	int hash[256] = { 0 };
+	for (int i = 0; i < size; i++)
+	{
+		hash[arr[i]]++;
+	}
+	for (int i = 0; i < size; i++)
+	{
+		if (hash[arr[i]] == 1)
+			return arr[i];
+	}
+}
+int main()
+{
+	char arr[] = "aabbcdcgfghutyy";
+	cout << FindOnlyInArr(arr, strlen(arr)) << endl;
 	getchar();
 	return 0;
 }
