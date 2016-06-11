@@ -1370,7 +1370,7 @@ int main()
 	return 0;
 }
 #endif
-#if 1
+#if 0
 //从1到n 1出现的次数
 long OneFromOneToN(long n)
 {
@@ -1492,3 +1492,13 @@ int main()
 	return 0;
 }
 #endif 
+#if 1
+int main()
+{
+	int a = 0x11121314;
+	char *p = (char *)&a;
+	cout <<  (int)*p << endl;
+	getchar();
+	return 0;
+}
+#endif

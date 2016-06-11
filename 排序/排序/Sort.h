@@ -1,4 +1,5 @@
 #include <iostream>
+#include<stack>
 using namespace std;
 //直接插入排序
 void InsertSort(int *arr, int n)
@@ -153,7 +154,7 @@ void QuikSort(int *arr, int left, int right)
 	//设置比较的基准值
 	int base = arr[left];
 	//一次交换必须直到相遇即停
-	while (i != j)
+	while (i < j)
 	{
 		//找从右边开始小于key值得数
 		while (arr[j] >= base && i < j)
@@ -161,16 +162,22 @@ void QuikSort(int *arr, int left, int right)
 		//从左起找第一个大于key值的数
 		while (arr[i] <= base && i < j)
 			i++;
-	
 		if (i < j)
 		{
 			swap(arr[i], arr[j]);
 		}
 	}
 	//将key值归位
-	swap(arr[left], arr[i]);
-	QuikSort(arr, left, i - 1);
-	QuikSort(arr, i + 1, right);
+	if (arr[i] < arr[left])
+	{
+		swap(arr[left], arr[i]);
+		QuikSort(arr, left, i - 1);
+		QuikSort(arr, i + 1, right);
+	}
+	else
+	{
+		QuikSort(arr, left + 1,right);
+	}
 }
 
 void print(int *arr, int n)
@@ -234,7 +241,50 @@ void QuikSort_OP2(int *arr, int start, int end)
 //快速排序的非递归
 void QuikSort_OP3(int *arr, int start, int end)
 {
-
+	stack<int> st;
+	st.push(end);
+	st.push(start);
+	 while ( !st.empty())
+	{
+		int left = st.top();
+		st.pop();
+		int right = st.top();
+		int key = right;
+		st.pop();
+		int my_start = left;
+		int my_end = right;
+		while (left < right)
+		{
+			while (left < right&&arr[left] <= arr[key])
+				++left;
+			while (left < right&&arr[right] >= arr[key])
+				--right;
+			if (arr[right] < arr[left])
+				swap(arr[left],arr[right]);
+		}
+		if (arr[right] > arr[key])
+		{
+			swap(arr[right], arr[key]);
+			if (my_end - right - 1 >= 1 && right != 0)
+			{
+				st.push(right-1);
+				st.push(my_start);
+			}
+			if (my_end - (right + 1) >= 1)
+			{
+				st.push(my_end);
+				st.push(right+1);
+			}
+		}
+		else
+		{
+			if (my_end - 1 - my_start >= 1)
+			{
+				st.push(key - 1);
+				st.push(my_start);
+			}
+		}
+	}	
 }
 //归并排序
 void  _Merge(int *arr, int start, int mid,int end)

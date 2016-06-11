@@ -42,15 +42,15 @@ void testCount()
 	CountSort(arr, sizeof(arr) / sizeof(arr[0]));
 	print(arr, sizeof(arr) / sizeof(arr[0]));
 }
-void testLSDSort()
+void TestQuikSort()
 {
 	int arr[] = { 729, 54, 41, 2, 65, 32, 85, 11, 96, 0 };
-	LSDSort(arr, sizeof(arr) / sizeof(arr[0]));
+	QuikSort_OP3(arr, 0,sizeof(arr)/sizeof(arr[0])-1);
 	print(arr, sizeof(arr) / sizeof(arr[0]));
 }
 int main()
 {
-	testLSDSort();
+	TestQuikSort();
 	getchar();
 	return 0;
 }
