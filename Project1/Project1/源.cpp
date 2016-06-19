@@ -1492,7 +1492,7 @@ int main()
 	return 0;
 }
 #endif 
-#if 1
+#if 0
 int main()
 {
 	int a = 0x11121314;
@@ -1501,4 +1501,95 @@ int main()
 	getchar();
 	return 0;
 }
+#endif
+#if 0
+//获取一个数的奇数序列及偶数序列
+void Get(int num)
+{
+	int key = num;
+	cout << "偶数位序列：" << endl;
+	for (int i = 31; i > 0; i-=2)
+	{
+		cout << ((key >> i)&1) ;
+	}
+	cout << endl;
+	cout << "奇数位序列：" << endl;
+	for (int i = 30; i >= 0; i-=2)
+	{
+		cout << ((key >> i) & 1) ;
+	}
+	cout << endl;
+}
+int main()
+{
+	Get(5);
+	getchar();
+	return 0;
+}
+#endif
+#if 0
+//模拟实现strstr
+const char * mystrstr(const char * src, const char * dest)
+{
+	const char *SrcCur = src;
+
+	while (*SrcCur  != '\0') 
+	{	
+		const char *DestCur = dest;
+		const char*Start = SrcCur;
+		while (*Start == *DestCur && *Start != '\0')
+		{
+			Start++;
+			DestCur++;
+			if (*DestCur == '\0')
+				return dest;
+		}
+		if (*Start == NULL)
+			return NULL;
+		
+	}
+	return NULL;
+}
+int main()
+{
+	char str[] = "adfrgdawx";
+	cout << mystrstr(str, "dfrg") << endl;
+	getchar();
+	return 0;
+}
+#endif
+#if 0
+//从1到n 1出现的次数
+long OneInOneToN(int n)
+{
+	long count = 0;
+	if (n == 0)
+		count = 0;
+	else if (count > 0 && count < 10)
+		count = 1;
+	//统计该数是10的几次方
+	int bit = 0;
+	int heigh= n;
+	while (heigh >= 10)
+	{
+		heigh /= 10;
+		heigh++;
+	}
+	int weight = pow(10, bit);
+	if (heigh == 1)
+		count = OneInOneToN(weight - 1) + OneInOneToN(n - weight) + (n - weight + 1);
+	else
+		count = heigh*OneInOneToN(weight - 1) + OneInOneToN(n - heigh*weight) + weight;
+
+	return count;
+}
+int main()
+{
+	cout << OneInOneToN(1000) << endl;
+	getchar();
+	return 0;
+}
+#endif
+#if 1
+
 #endif

@@ -58,4 +58,8 @@ public:
 			}
 			_root = hp.top();
 	}
+	Node * GetRoot()
+	{
+		return  _root;
+	}
 };

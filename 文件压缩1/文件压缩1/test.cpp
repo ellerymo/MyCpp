@@ -11,8 +11,14 @@ void testCompress()
 	FileCompress com;
 	com.Compree("file.dat");
 }
+void testUnCompress()
+{
+	FileCompress com;
+	com.UnCompress("file.huff");
+}
 int main()
 {
 	testCompress();
+	testUnCompress();
 	return 0;
 }
