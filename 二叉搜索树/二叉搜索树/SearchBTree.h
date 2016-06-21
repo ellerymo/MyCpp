@@ -21,8 +21,16 @@ public:
 	SrBTree() :_root(NULL)
 	{}
 	~SrBTree()
-	{}
-public:
+	{
+		_Delete(_root);
+	}
+
+public:	
+	void InOrder()
+	{
+		_InOrder(_root);
+		cout << endl;
+	}
 	bool Insert(const K key, const V value)
 	{
 		if (_root == NULL)
@@ -47,11 +55,6 @@ public:
 			parent->_right = new Node(key, value);
 		return true;
 	}
-	void InOrder()
-	{
-		_InOrder(_root);
-		cout << endl;
-	}
 	Node* Find(const K key)
 	{
 		Node *cur = _root;
@@ -66,7 +69,7 @@ public:
 		}
 		return NULL;
 	}
-	bool Remove(const K key)
+ 	bool Remove(const K key)
 	{
 		if (_root == NULL)
 			return false;
@@ -75,13 +78,20 @@ public:
 		Node *del = NULL;
 		while (cur)
 		{
-			parent = cur;
+			
 			if (key > cur->_key)
+			{
+				parent = cur;
 				cur = cur->_right;
+			}
 			else if (key < cur->_key)
+			{
+				parent = cur;
 				cur = cur->_left;
+			}
 			else
 			{
+				del = _root;
 				if (cur == _root)
 				{
 					if (!cur->_left)
@@ -89,7 +99,7 @@ public:
 					else if (!cur->_right)
 						_root = cur->_left;
 				}
-				if (!cur->_left)
+				else if (!cur->_left)
 				{
 					del = cur;
 					if (parent->_left == cur)
@@ -97,7 +107,7 @@ public:
 					else
 						parent->_right = cur->_right;
 				}
-				if (!cur->_right)
+				else if (!cur->_right)
 				{
 					del = cur;
 					if (parent->_left == cur)
@@ -128,7 +138,86 @@ public:
 		}
 		return true;
 	}
+	bool InsertR(const K key, const V value)
+	{
+		return _InsertR(_root, key,value);
+	}
+	Node* FindR(const K key)
+	{
+		return _FindR(_root, key);
+	}
+	bool RemoveR(const K key)
+	{
+		return _RemoveR(_root, key);
+	}
 private:
+	void _Delete(Node *root)
+	{
+		if (root == NULL)
+			return;
+		Node *cur = root;
+		_Delete(root->_left);
+		_Delete(root->_right);
+		delete cur;
+	}
+	bool _RemoveR(Node *& root, const K key)
+	{
+		if (root == NULL)
+			return false;
+		if (root->_key == key)
+		{
+			Node *del = root;
+			if (!root->_left)
+				root = root->_right;
+			else if (root->_right)
+				root = root->_left;
+			else
+			{
+				Node *& cur = root->_right;
+				Node *& left = cur;
+				while (left->_left)
+					left = left->_left;
+				del = left;
+				swap(root->_key, left->_key);
+				swap(root->_value, left->_value);
+				left = left->_right;
+
+			}
+			delete del;
+			return true;
+		}
+		else if (root->_key > key)
+			_RemoveR(root->_left, key);
+		else
+			_RemoveR(root->_right, key);
+
+	}
+	Node *_FindR(Node *& root, const K key)
+	{
+		if (root == NULL)
+			return NULL;
+		if (root->_key == key)
+			return root;
+		if (root->_key < key)
+			_FindR(root->_right,  key);
+		else if (root->_key > key)
+			_FindR(root->_left, key);
+
+	}
+	bool _InsertR(Node *& root, const K key, const V value)
+	{
+		if (root == NULL)
+		{
+			root = new Node(key, value);
+			return true;
+		}
+		if (root->_key > key)
+			_InsertR(root->_left, key, value);
+		else if (root->_key < key)
+			_InsertR(root->_right, key, value);
+		else
+			return false;
+	}
 	void _InOrder(Node *root)
 	{
 		if (root == NULL)

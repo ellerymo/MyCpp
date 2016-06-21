@@ -1,5 +1,24 @@
-#define _CRT_SECURE_NO_WARNINGS 1
-#include"Huffman.h"
-#include<string>
-#include<stdio.h>
-typedef long long
+void UnCompress(const char *filename)
+	{
+		//读配置文件构造哈弗曼树
+		FILE *fIn = fopen("config.txt", "rb");
+		assert(fIn);
+		string line;
+		int Count = 0;
+		while (ReadLine(fIn, line) != EOF)
+		{
+			if (line.empty())
+			{
+				line += '\n';
+			}
+			else
+			{
+				_infos[(unsigned char)line[0]]._count = atoi(line.substr(2).c_str());
+				line.clear();
+			}
+		}
+		for (int i = 0; i < 256; i++)
+		{
+			if (_infos[i]._count != 0)
+				Count += _infos[i]._count;
+		}

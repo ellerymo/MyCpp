@@ -39,7 +39,7 @@ public:
 	void Compree(const char *filename)
 	{
 		FILE *fOut = NULL;
-		fOut = fopen(filename, "r");
+		fOut = fopen(filename, "rb");
 		assert(fOut);
 		//统计字符出现的次数
 		char ch = fgetc(fOut);
@@ -55,7 +55,7 @@ public:
 		//生成Huffman编码
 		GetHuffmanCode(tree._root, "");
 		//保存Huffman编码
-		FILE *write = fopen("file.huff", "w");
+		FILE *write = fopen("file.huff", "wb");
 		assert(write);
 		char cha = 0;
 		//重新从文件里读code并且保存
@@ -89,7 +89,7 @@ public:
 		}
 
 		//写配置文件
-		FILE *conf = fopen("config.txt","w");
+		FILE *conf = fopen("config.txt","wb");
 		for (int i = 0; i < 256; i++)
 		{
 			if (_infos[i]._count != 0)
@@ -108,7 +108,7 @@ public:
 	void UnCompress(const char *filename)
 	{
 		//读配置文件构造哈弗曼树
-		FILE *fIn = fopen("config.txt", "r");
+		FILE *fIn = fopen("config.txt", "rb");
 		assert(fIn);
 		string line;
 		int Count = 0;
@@ -135,8 +135,8 @@ public:
 		HuffmanTreeNode<CharInfo> *root = tree.GetRoot();
 		GetHuffmanCode(tree._root, "");
 		int pos = 7;
-		FILE *fOut = fopen(filename, "r");
-		FILE*UnCom = fopen("UnCompress.dat", "w");
+		FILE *fOut = fopen(filename, "rb");
+		FILE*UnCom = fopen("UnCompress.dat", "wb");
 		char fo = fgetc(fOut);
 		HuffmanTreeNode<CharInfo> *cur = root;
 		while (fo != EOF || Count != 0)
