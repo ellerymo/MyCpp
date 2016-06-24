@@ -94,9 +94,11 @@ public:
 		{
 			if (_infos[i]._count != 0)
 			{
-				fputc(_infos[i]._ch, conf);
+				char buf[128] = { '\0' };
+   				fputc(_infos[i]._ch, conf);
 				fputc(',',conf);
-				fputc(_infos[i]._count + '0', conf);
+				_itoa(_infos[i]._count, buf, 10);
+				fputs(buf, conf);
 				fputc('\n',conf);
 			}
 		}

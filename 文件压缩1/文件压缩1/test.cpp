@@ -1,5 +1,6 @@
 #include"FileCompress.h"
-
+#include<time.h>
+#include<windows.h>
 
 void testHuffman()
 {
@@ -18,7 +19,14 @@ void testUnCompress()
 }
 int main()
 {
+	int a = clock();
 	testCompress();
+	int b = clock();
+	cout << "压缩时间：" << b - a <<"ms"<< endl;
+	int c = clock();
 	testUnCompress();
+	int d = clock();
+	cout << "解压时间：" << d - c << "ms"<<endl;
+	getchar();
 	return 0;
 }
