@@ -10,12 +10,12 @@ void testHuffman()
 void testCompress()
 {
 	FileCompress com;
-	com.Compree("file.dat");
+	com.Compree("Input");
 }
 void testUnCompress()
 {
 	FileCompress com;
-	com.UnCompress("file.huff");
+	com.UnCompress("Input");
 }
 int main()
 {
