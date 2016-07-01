@@ -45,7 +45,7 @@ public:
 			}
 			int  n1 = j-1;
 			Heap<Node*, Comp> hp(node, n1);
-			while (hp.size() > 1)
+			while (hp.size() > 1)  
 			{
 				Node*left = hp.top();
 				hp.pop();

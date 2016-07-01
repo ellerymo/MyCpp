@@ -1371,6 +1371,44 @@ int main()
 }
 #endif
 #if 0
+int Min(int num1,int num2, int num3)
+{
+	int min = num1 < num2 ? num1 : num2;
+	min = min < num3 ? min : num3;
+	return min;
+}
+int FindUglyNum(int n)
+{
+	int *Ugly = new int[n];
+	int *Base2 = Ugly;
+	int *Base3 = Ugly;
+	int *Base5 = Ugly;
+	int Count = 1;
+	Ugly[0] = 1;
+	while(Count < n)
+	{
+		int min = Min((*Base2)*2,(*Base3)*3,(*Base5)*5);
+		Ugly[Count] = min;
+		while((*Base2)*2 <= min)
+			++Base2;
+		while((*Base3)*3 <= min)
+			++Base3;
+		while((*Base5)*5 <= min)
+			++Base5;
+		++Count;
+	}
+	int Ret  = Ugly[Count-1];
+	delete[] Ugly;
+	return Ret;
+}
+int main()
+{
+	cout << FindUglyNum(1500) << endl;
+	getchar();
+	return 0;
+}
+#endif
+#if 0
 //从1到n 1出现的次数
 long OneFromOneToN(long n)
 {
@@ -1492,6 +1530,50 @@ int main()
 	return 0;
 }
 #endif 
+#if 1
+int _Count(int *arr,int start,int end,int & count)
+{
+	if (end == start)
+		return 0;
+	int mid = (start + end) / 2;
+	_Count(arr, start, mid, count);
+	_Count(arr, mid+1 ,end, count);
+	int *cur1 = arr + start;
+	int *cur2 = arr + mid+1;
+	int *num = new int[end - start + 1];
+	int  i = 0;
+	while ((arr + mid) - cur1 >= 0)
+	{
+		if (*cur1 > *cur2)
+		{
+			count += (arr + mid) - cur1 + 1;
+			num[i++] = *cur2;
+			num[i++] = *cur1;
+		}
+		else
+		{
+			num[i++] = *cur1;
+			num[i++] = *cur2;
+		}
+		cur1++;
+		cur2++;
+	}
+	memcpy(arr + start, num, (end - start + 1)*sizeof(int));
+	return count;
+}
+int Count(int *arr, int size)
+{
+	int count = 0;
+	return _Count(arr, 0, size - 1, count);
+}
+int main()
+{
+	int arr[] = { 7, 6, 5, 4 };
+	cout << Count(arr, sizeof(arr) / sizeof(arr[0])) << endl;
+	getchar();
+	return 0;
+}
+#endif
 #if 0
 int main()
 {

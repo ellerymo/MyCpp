@@ -39,7 +39,7 @@ public:
 	void Compree(string filename)
 	{
 		FILE *fOut = NULL;
-		fOut = fopen((filename+".BIG").c_str(), "rb");
+		fOut = fopen((filename+".PNG").c_str(), "rb");
 		assert(fOut);
 		//统计字符出现的次数
 		char ch = fgetc(fOut);

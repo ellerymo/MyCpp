@@ -10,23 +10,23 @@ void testHuffman()
 void testCompress()
 {
 	FileCompress com;
-	com.Compree("Input");
+	com.Compree("1");
 }
 void testUnCompress()
 {
 	FileCompress com;
-	com.UnCompress("Input");
+	com.UnCompress("1");
 }
 int main()
 {
-	int a = clock();
+	clock_t  a = clock();
 	testCompress();
-	int b = clock();
-	cout << "压缩时间：" << b - a <<"ms"<< endl;
-	int c = clock();
+	clock_t  b = clock();
+	cout << "压缩时间：" << (b - a)/1000 <<"s"<< endl;
+	clock_t  c = clock();
 	testUnCompress();
-	int d = clock();
-	cout << "解压时间：" << d - c << "ms"<<endl;
+	clock_t  d = clock();
+	cout << "解压时间：" << (d - c)/1000 << "s"<<endl;
 	getchar();
 	return 0;
 }
