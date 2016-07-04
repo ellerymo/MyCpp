@@ -1530,7 +1530,7 @@ int main()
 	return 0;
 }
 #endif 
-#if 1
+#if 0
 int _Count(int *arr,int start,int end,int & count)
 {
 	if (end == start)
@@ -1672,6 +1672,280 @@ int main()
 	return 0;
 }
 #endif
-#if 1
+#if 0
+//数字在排序数组里出现的次数
+int GetFirst(int *arr,int start,int end,int key)
+{
+	int Mid = (end + start) / 2;
+	
+	while (start < end)
+	{
+		if (arr[Mid] > key)
+			end = Mid - 1;
+		else if (arr[Mid] < key)
+			start = Mid + 1;
+		else if ((Mid != 0 && arr[Mid - 1] != key )|| Mid ==0)
+			return Mid;
+		else
+			end = Mid - 1;
+		Mid = (end + start) / 2;
+	}
+	if (start == end && arr[start] != key)
+		return -1;
+}
+int GetLast(int *arr, int start, int end, int key)
+{
+	int Mid = (end + start) / 2;
 
+	while (start < end)
+	{
+		if (arr[Mid] > key)
+			end = Mid - 1;
+		else if (arr[Mid] < key)
+			start = Mid + 1;
+		else if ((Mid != end && arr[Mid + 1] != key) || Mid == end)
+			return Mid;
+		else
+			start = Mid + 1;
+		Mid = (end + start) / 2;
+	}
+	if (start == end && arr[start] != key)
+		return -1;
+}
+void CountNumInArr()
+{
+	int arr[] = { 1, 2, 3, 3, 3, 3, 4, 5, 6, 7 };
+	int start = GetFirst(arr, 0, sizeof(arr) / sizeof(arr[0]) - 1,3);
+	int end = GetLast(arr, 0, sizeof(arr) / sizeof(arr[0]) - 1, 3);
+	cout << "共有连续的" << end - start + 1 << "个所寻关键字" << endl;
+}
+int main()
+{
+	CountNumInArr();
+	getchar();
+	return 0;
+}
 #endif
+//利用构造函数实现1到n的累加
+#if 0
+int N;
+int Sum;
+class Add
+{
+public:
+	Add()
+	{
+		N++;
+		Sum = Sum + N;
+	}
+	void Init()
+	{
+		N = 0;
+		Sum = 0;
+	}
+	int GetSum()
+	{
+		return Sum;
+	}
+};	
+int main()
+{
+	Add init;
+	init.Init();
+	Add *sum = new Add[100];
+	cout<<sum->GetSum()<<endl;
+	delete[] sum;
+	getchar();
+	return 0;
+}
+#endif
+//利用模板实现1到n的累加
+#if 0
+template<unsigned int n>
+struct  Sum_n
+{
+	enum V
+	{
+		N = Sum_n<n-1>::N+n
+	};
+};
+template<>
+struct Sum_n<1>
+{
+	enum V
+	{
+		N = 1
+	};
+};
+int main()
+{
+	Sum_n<100> sum;
+	cout << sum.N << endl;
+	getchar();
+	return 0;
+}
+#endif
+//不使用四则运算完成加法
+#if 0
+int SumNotAdd(int a,int b)
+{
+	int sum, cur;
+	do
+	{
+		sum = a^b;
+		//计算进位，仅当两位都是1时结果才是1（相当于二进制加法两个都为1时必须进位）
+		cur = (a&b) << 1;
+
+		//使得a为不带进位的加法结果，b为进位的结果，再将它们相加
+		a = sum;
+		b = cur;
+	} while (b != 0);//b为0 时说明进位已为0 从而无须再继续相加
+	return sum;
+}
+int main()
+{
+	cout << SumNotAdd(17, 5) << endl;
+	getchar();
+	return 0;
+}
+#endif
+
+#if 0
+bool flag = true;
+long long StrToNum(const char *str)
+{
+	long long num = 0;
+	int Sym = 1;
+	if (*str == '-')
+	{
+		Sym = -1;
+		++str;
+	}
+	else if (*str == '+')
+	{
+		++str;
+	}
+	while (*str != '\0')
+	{
+
+		if (*str >= '0' && *str <=  '9')
+		{
+			num = num * 10 + Sym*(*str - '0');
+			if (((Sym == 1) && (num >0x7FFFFFFF)) ||
+				(Sym == -1) && (num < (-9223372036854775807-1)))
+			{
+				cout << "数字溢出" << endl;
+				return 0;
+			}
+			str++;
+		}
+		else
+		{
+			flag = false;
+			return 0;
+		}
+	}
+	return num;
+}
+int main()
+{
+	cout << StrToNum("1500") << endl;
+	cout << StrToNum("92233720368547758078") << endl;
+	cout << StrToNum("+1500") << endl;
+	cout << StrToNum("-1500") << endl;
+	getchar();
+	return 0;
+}
+#endif
+//N! 的末尾有多少个零
+#if 0
+//利用因式分解的方式，在N 的阶乘里面一定存在 2x5 的因式会产生10，
+//并且我们可以确定5的个数一定小于2的个数，所以我们只需要确定5的个数就可以确定产生了多少个10
+int CountZeroInN(int n)
+{
+	int ret = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		int j = i;
+		while (j % 5 == 0)
+		{
+			ret++;
+			j /= 5;
+		}
+	}
+	return ret;
+}
+int main()
+{
+	cout << CountZeroInN(10) << endl;
+	getchar();
+	return 0;
+}
+#endif
+#if 0
+int Find(int *arr,int size)
+{
+	int count = 0;
+	int ret = 0;
+	for (int i = 0; i < size; i++)
+	{
+		if (count == 0)
+		{
+			ret = arr[i];
+			count = 1;
+		}
+		else
+		{
+			if (ret == arr[i])
+				count++;
+			else
+				count--;
+		}
+	}
+	return ret;
+}
+int main()
+{
+	int arr[] = { 3, 1, 3, 7, 3, 3, 6, 1, 3, 3 ,2 };
+	cout << Find(arr,sizeof(arr)/sizeof(arr[0])) << endl;
+	getchar();
+	return 0;
+}
+#endif
+//求出1到N中1的个数
+/*
+	按照最高位是否为1来分类 f(132) = f(100-1) + f(132-100) + (32+1)
+										    f(232) = 2*f(100-1) + f(232-200) + 100
+*/
+#if 1
+long FindOnToN(int n)
+{
+	int Heigh = n;
+	int base = 0;
+	//计算出其为10的base次方及最高位数字
+	while (Heigh >= 10)
+	{
+		base++;
+		Heigh /= 10;
+	}
+	//如果只剩个位的话超过1则为1 不超过1则表示1出现了0次
+	if (n < 10)
+	{
+		if (n > 0)
+			return 1;
+		else
+			return 0;
+	}
+	long weight = Heigh * pow(10, base);
+	if (Heigh > 1)
+		return FindOnToN(n - weight) + Heigh*FindOnToN(pow(10, base) - 1) + pow(10, base);
+	else
+		return FindOnToN(n - weight) + FindOnToN(weight - 1) + n - weight + 1;
+}
+int main()
+{
+	cout << FindOnToN(1000) << endl;
+	getchar();
+	return 0;
+}
+#endif 
