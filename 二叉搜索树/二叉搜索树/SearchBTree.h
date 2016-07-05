@@ -127,8 +127,8 @@ public:
 					del = left;
 					swap(left->_key, cur->_key);
 					swap(left->_value, cur->_value);
-					if (left = cur->_right)
-						cur->_right = left->_right;
+					if (left == parent->_right)
+						parent->_right = left->_right;
 					else
 						parent->_left = left->_right;
 				}

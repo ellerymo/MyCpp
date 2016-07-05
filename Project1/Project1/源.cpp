@@ -1917,7 +1917,7 @@ int main()
 	按照最高位是否为1来分类 f(132) = f(100-1) + f(132-100) + (32+1)
 										    f(232) = 2*f(100-1) + f(232-200) + 100
 */
-#if 1
+#if 0
 long FindOnToN(int n)
 {
 	int Heigh = n;
@@ -1948,4 +1948,4 @@ int main()
 	getchar();
 	return 0;
 }
-#endif 
+#endif   
