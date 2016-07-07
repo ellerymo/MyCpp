@@ -68,42 +68,54 @@ using namespace std;
 		 //调整平衡因子
 		 while (cur)
 		 { 
+			
 			 if (  cur == _root )
-				 break;
-			 if (cur == (cur->_parent)->_left)
+				 break; 
+			 Node *parent = cur->_parent;
+			 if (cur == parent->_left)
 			 {
-				 (cur->_parent)->_bf--;
+				 parent->_bf--;
 			 }
-			 else if (cur == (cur->_parent)->_right)
+			 else if (cur == parent->_right)
 			 {
-				 (cur->_parent)->_bf++;
+				 parent->_bf++;
 			 }
-			 if ((cur->_parent)->_bf == 0)
+			 if (parent->_bf == 0)
 				 break;
+			
+			 if(abs(parent->_bf)>1)
+			 {
+					 //左单旋
+				 if (parent->_bf == 2 && cur->_bf == 1)
+					 LeftR(parent);
+					 //右单选
+				 else if (parent->_bf == -2 && cur->_bf == -1)
+					 RightR(parent);
+					//左右双旋
+				 else if (parent->_bf == -2 && cur->_bf == 1)
+					 LeftRightR(parent);
+					//右左双旋
+				 else if (parent->_bf == 2 && cur->_bf == -1)
+					 RightLeftR(parent);
+					break;
+			 }
 			 cur = cur->_parent;
-			 //左单旋
-			 if ((cur->_parent)->_bf == -2 && cur->_bf == -1)
-				 LeftR(parent);
-			//右单选
-			 else if ((cur->_parent)->_bf == 2 && cur->_bf == 1)
-				 RightR(parent);
-			//左右双旋
-			 else if ((cur->_parent)->_bf == 2 && cur->_bf == -1)
-				 LeftRightR(parent);
-			//右左双旋
-			 else if ((cur->_parent)->_bf == -2 && cur->_bf == 1)
-				 RightLeftR(parent);
 		 }
 	 }
+	 bool IsBalance()
+	 {
+		 return _IsBalance(_root);
+	 }
  private:
-	 void LeftR(Node *& parent)
+	 void LeftR(Node * parent)
 	 {
 		 Node* SubR = parent->_right;
 		 Node* SubRL = SubR->_left;
 		 Node*ppNode = parent->_parent;
 		 
 		 parent->_right = SubRL;
-		 SubRL->_parent = parent;
+		 if (SubRL)
+			SubRL->_parent = parent;
 
 		 SubR->_left = parent;
 		 parent->_parent = SubR;
@@ -122,14 +134,15 @@ using namespace std;
 		 parent->_bf = 0;
 		 SubR->_bf = 0;
 	 }
-	 void RightR(Node*& parent)
+	 void RightR(Node* parent)
 	 {
 		 Node* SubL = parent->_left;
 		 Node *SubLR = SubL->_right;
 		 Node *ppNode = parent->_parent;
 
 		 parent->_left = SubLR;
-		 SubLR->_parent = parent;
+		 if (SubLR)
+			SubLR->_parent = parent;
 		 
 		 SubL->_right = parent;
 		 parent->_parent = SubL;
@@ -140,24 +153,59 @@ using namespace std;
 				 ppNode->_left = SubL;
 			 else
 				 ppNode->_right = SubL;
-			
 		 } 
+		 SubL->_parent = ppNode;
 		 if (parent == _root)
 				 _root = SubL;
 		 //更新平衡因子
 		 parent->_bf = 0;
 		 SubL->_bf = 0;
 	 }
-	 void LeftRightR(Node*& parent)
+	 void LeftRightR(Node* parent)
 	 {
-		 LeftR(parent->_left);
+		 Node*SubL = parent->_left;
+		 Node *SubLR = SubL->_right;
+		 int bf = SubLR->_bf;
+		 LeftR(SubL);
 		 RightR(parent);
-		 //纠正平衡因子
+		 if (bf == 1)
+			 SubL->_bf = -1;
+		 else if (bf == -1)
+			 parent->_bf = 1;
 	 }
-	 void RightLeftR(Node*& parent)
+	 void RightLeftR(Node* parent)
 	 {
-		 RightR(parent->_right);
-		 RightR(parent);
-		 //纠正平衡因子
+		 Node*SubR = parent->_right;
+		 Node *SubRL = SubR->_left;
+		 int bf = SubRL->_bf;
+		 RightR(SubR);
+		 LeftR(parent);
+		 if (bf == 1)
+			 parent->_bf = -1;
+		 else if (bf == -1)
+			 SubR->_bf = 1;
+	 }
+	 int _Height(Node *root)
+	 {
+		 if (root == NULL)
+			 return 0;
+		 return _Height(root->_left) > _Height(root->_right) ?
+			 (_Height(root->_left) + 1) : (_Height(root->_right) + 1);
+	 }
+	 bool _IsBalance(Node *root)
+	 {
+		 if (root == NULL)
+			 return true;
+		 if (root->_bf != (_Height(root->_right) - _Height(root->_left)))
+		 {
+			 cout << "在" <<root->_key<< "处检测出平衡因子与高度不符" << endl;
+			 return false;
+		 }
+		 if (abs(root->_bf) > 1)
+		 {
+			 cout << root->_key<<"处AVL高度差超过1" << endl;
+			 return false;
+		 }
+		 return _IsBalance(root->_left) && _IsBalance(root->_right);
 	 }
  };

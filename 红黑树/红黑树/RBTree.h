@@ -185,8 +185,8 @@ public:
 				ppNode->_left = SubL;
 			else
 				ppNode->_right = SubL;
-
 		}
+		SubL->_parent = ppNode;
 		if (parent == _root)
 			_root = SubL;
 	}
