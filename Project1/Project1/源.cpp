@@ -1949,3 +1949,50 @@ int main()
 	return 0;
 }
 #endif   
+//同时找出数组里最大数和最小数（奇偶位分法）
+#if 1
+void find_min_and_max(int arr[], int sz)
+{
+	for (int i = 0; i < sz-1; i += 2)
+	{
+		//小的放在奇数位
+		if (arr[i] > arr[i + 1])
+			swap(arr[i], arr[i + 1]);
+
+	}
+	int min = arr[0];
+	int max = arr[1];
+	for (int i = 0; i < sz; i += 2)
+	{
+		if (arr[i] < min)
+			min = arr[i];
+		if (sz % 2 == 1 && (i + 1) == sz-1)
+		{
+			i = i + 1;
+			if (arr[i] < min)
+				min = arr[i];
+		}
+	}
+	for (int i = 1; i < sz; i += 2)
+	{
+		
+		if (arr[i] > max)
+			max = arr[i];
+		if (sz % 2 == 1 && (i + 1) == sz-1)
+		{
+			i = i + 1;
+			if (arr[i] > max)
+				max = arr[i];
+		}
+	}
+	cout << "Max： " << max << endl;
+	cout << "Min：" << min << endl;
+}
+int main()
+{
+	int arr[] = { 1, 4, 3, 7, 2, 0, 9 };
+	find_min_and_max(arr, sizeof(arr) / sizeof(arr[0]));
+	getchar();
+	return 0;
+}
+#endif 
