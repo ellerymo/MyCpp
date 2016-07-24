@@ -1,3 +1,5 @@
+#define  _CRT_SECURE_NO_WARNINGS
+
 #include<iostream>
 #include<cassert>
 #include<stack>
@@ -1950,7 +1952,7 @@ int main()
 }
 #endif   
 //同时找出数组里最大数和最小数（奇偶位分法）
-#if 1
+#if 0
 void find_min_and_max(int arr[], int sz)
 {
 	for (int i = 0; i < sz-1; i += 2)
@@ -1995,4 +1997,166 @@ int main()
 	getchar();
 	return 0;
 }
-#endif 
+#endif
+#if 0
+//定义一个只能在栈上生成对象的类
+class A
+{
+private:
+	void* operator new(size_t size)
+	{}
+	void operator delete(void *p)
+	{}
+};
+int main()
+{
+	A *a = new A();
+}
+
+#endif
+#if 0
+//定义一个只能在堆上生成对象的类
+class B
+{
+public:
+	//定义为static 可直接通过类域访问
+	static B* CreateB()
+	{
+		B *b = new B();
+		return b;
+	}
+	void destroy(B* b)
+	{
+		delete this;
+	}
+private:
+	B(){}
+	~B(){}
+};
+
+int main()
+{
+
+	B* b=B::CreateB();
+	getchar();
+	return 0;
+}
+#endif
+#if 0
+template<class T>
+struct defualt
+{
+	void operator()(T *_ptr)
+	{
+		delete _ptr;
+	}
+};
+template<class T>
+struct Free
+{
+	void operator()(T *_ptr)
+	{
+		free _ptr;
+	}
+};
+template<class T>
+struct File
+{
+	void operator()(T *_ptr)
+	{
+		fclose(_ptr);
+	}
+};
+template <class T, class del = defualt<T>>
+class SharedPtr
+{
+public:
+	SharedPtr(T *ptr):_ptr(ptr), _count(new int(1)){}
+	SharedPtr(const SharedPtr & sptr)
+	{
+		sptr._ptr = _ptr;
+		sptr._count = _ptr._count;
+		*(_count)++;
+	}
+	~SharedPtr()
+	{
+		if (--(*_count) == 0)
+		{
+
+			//delete _ptr;
+			_del(_ptr);
+			delete _count;
+		}
+	}
+	SharedPtr<T>& operator=(const SharedPtr<T> sptr)
+	{
+		if (&sptr != this)
+		{
+			if (--(*_count) == 0)
+			{
+				//delete _ptr;
+				_del(_ptr);
+				delete _count;
+			}
+			_ptr = sptr._ptr;
+			_count = sptr._count;
+			(*_count)++;
+		}
+	}
+public:
+	T* operator->()
+	{
+		return _ptr;
+	}
+	T& operator*()
+	{
+		return *_ptr;
+	}
+
+private:
+	T *_ptr;
+	int *_count;
+	del _del;
+};
+int main()
+{
+	int *p = new int(10);
+	SharedPtr<int> ptr(p);
+	cout << *ptr << endl;
+	getchar();
+	FILE*p1 = fopen("1.txt", "w");
+	SharedPtr<FILE, File<FILE>> _ptr(p1);
+
+	return 0;
+}
+
+#endif
+#if 1
+class A
+{
+public:
+	static A* Create()
+	{
+		if (a == NULL)
+			a = new A();
+		return a;
+	}
+	~A()
+	{
+		if (a != NULL)
+			delete a;
+	}
+private:
+	A()
+	{}
+	static A* a;
+	
+};
+int main()
+{
+	A *a = A::Create();
+	//A *b = A::Create();
+	getchar();
+	return 0;
+}
+#endif
