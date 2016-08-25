@@ -2131,7 +2131,7 @@ int main()
 }
 
 #endif
-#if 1
+#if 0
 class A
 {
 public:
@@ -2159,4 +2159,48 @@ int main()
 	getchar();
 	return 0;
 }
+#endif
+#if 0
+#include <vector>
+class Solution
+{
+public:
+	bool Find(vector<vector<int> > array, int target)
+	{
+		int col = array[0].size() - 1;
+		int row = array.size() - 1;
+		int mycol = col;
+		int myrow = 0;
+		int check = 1;
+		while (mycol != 0 || myrow != row)
+		{
+			if (array[myrow][mycol] > target)
+				mycol--;
+			else if (array[myrow][mycol] < target)
+				myrow++;
+			else
+			{
+				check = 0;
+				break;
+			}
+				
+		}
+		if (check == 0)
+			return true;
+		else
+			return false;
+	}
+};
+int main()
+{
+	Solution s;
+	vector<vector<int>> v{ { 1, 2, 8, 9 }, { 4, 7, 10, 13 } };
+	cout<<s.Find(v,7)<<endl;
+	getchar();
+	return 0;
+
+}
+#endif
+#if 1
+
 #endif
