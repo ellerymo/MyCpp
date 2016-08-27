@@ -2201,6 +2201,78 @@ int main()
 
 }
 #endif
-#if 1
+#if 0
+class Solution {
+public:
+	void replaceSpace(char *str, int length) {
+		char * cur = str + length;
+		char *p = str;
+		int count_blank = 0;
+		while (*p != '\0')
+		{
+			if (*p == ' ')
+				count_blank++;
+			p++;
+		}
+		cur += 2*count_blank;
+		p = str + length;
+		while (1)
+		{
+			if (*p == ' ')
+			{
+				*cur-- = '0';
+				*cur-- = '2';
+				*cur-- = '%';
+				if (*p == *str)
+					break;
+				p--;
+			}
+			else
+			{
+				*cur = *p;
+				if (*p == *str)
+					break;
+				cur--;
+				p--;
+			}
+			
+		}
+	}
+};
+int main()
+{
+	Solution s;
+	char str[] = "hello world!";
+	s.replaceSpace(str, strlen(str));
+	int sz = sizeof(str) / sizeof(str[0]);
+	for (int i = 0; i < sz; i++)
+	{
+		cout << str[i];
+	}
+	cout << endl;
+	getchar();
+	return 0;
+}
 
+#endif
+#if 1
+int main()
+{
+	int x = 1, i = 1;
+	for (; x < 50; i++)
+	{
+		if (x >= 10)
+			break;
+		if (x % 2 == 1)
+		{
+			x += 3;
+			continue;
+		}
+		x -= 1;
+	}
+	char e[3] = { '0','1' };
+	printf("x = %d, i = %d\n", x, i);
+	getchar();
+	return 0;
+}
 #endif
