@@ -259,9 +259,10 @@ template <bool threads, int inst>
 size_t _Default_Alloc_Template<threads, inst>::Heap_Size = 0;
 
 template <bool threads, int inst>
-typename _Default_Alloc_Template<threads, inst>::Obj* volatile \
+typename  _Default_Alloc_Template<threads, inst>::Obj* volatile \
 _Default_Alloc_Template<threads, inst>:: \
 Free_List[_Default_Alloc_Template<threads, inst>::_NFREELISTS] = { 0 };
+
 
 template<class T, class Alloc = _Default_Alloc_Template<0, 0> >
 class Simple_Alloc {

@@ -102,6 +102,7 @@ BigData::BigData(const char* str) : _value(INIT)
 BigData::BigData(const string str) :_StrData(str), _value(INIT)
 {}
 
+
 /*判断long long 是否溢出*/
 bool BigData::INTisOverFlow(const char * str)
 {
@@ -114,7 +115,6 @@ bool BigData::INTisOverFlow(const char * str)
 
 BigData BigData:: operator+ (const BigData& big)
 {
-	///*
 	//	 运算分同号异号，并且区分两个运算数据是否有溢出
 	//*/
 	//BigData sum;

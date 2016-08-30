@@ -1,7 +1,10 @@
 #include <iostream>
 #include <mutex>
 #include <assert.h>
+#include <Windows.h>
 using namespace std;
+
+//懒汉模式：第一次调用时才产生实例对象
 class single
 {
 protected:
@@ -12,7 +15,6 @@ protected:
 	single(const single& s);
 	static mutex mtx;
 public:
-	//懒汉模式：第一次调用时才产生实例对象
 	static single* GetIns()
 	{
 		//双重检查->效率
@@ -23,7 +25,13 @@ public:
 			//C++11 提供的RAII机制 
 			lock_guard<mutex> lock(mtx);
 			if (_instance == NULL)
-				_instance = new single;
+			{
+				single * tmp;
+				tmp = new single;
+				//使用内存栅栏防止编译器调整指令流水顺序
+				MemoryBarrier();
+				_instance = tmp;
+			}
 			//mtx.unlock();
 		}
 		return _instance;
@@ -51,12 +59,13 @@ public:
 			assert(_Instance);
 			return _Instance;
 		*/
-		static HungrySingle h;
+		static HungrySingle h = *_Instance;
 		return &h;
 	}
 };
 HungrySingle* HungrySingle::_Instance = new HungrySingle;
 
+//定义一个只能在堆上生成对象的类 将析构函数私有化
 class NotHeapIns
 {
 protected:
@@ -65,7 +74,7 @@ protected:
 int main()
 {
 	single::GetIns();
-	NotHeapIns* Ins = new NotHeapIns;
+	//NotHeapIns Ins;
 	getchar();
 	return 0;
 }

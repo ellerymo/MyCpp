@@ -13,7 +13,6 @@ class BigData
 private:
 	//用于存放没有溢出的数据
 	INT64 _value;
-
 	std::string _StrData;
 
 public:
@@ -25,7 +24,6 @@ public:
 	BigData operator* (const BigData& big);
 	BigData operator/ (const BigData& big);
 	
-
 private:
 	bool INTisOverFlow(const char * str);
 	std::string _ADD(std::string s1, std::string s2);
