@@ -105,7 +105,7 @@ private:
 		union Obj * Free_List_Link;
 		char Client_Data[1];
 	};
-	static volatile Obj* Free_List[_NFREELISTS];	/*自由链表*/
+	static  Obj* volatile Free_List[_NFREELISTS];	/*自由链表*/
 	static char *_Start;							/*水位线*/
 	static char *_End;								/*内存池底*/
 	static size_t Heap_Size;						/*从系统堆分配的总大小*/
@@ -168,8 +168,13 @@ public:
 		Obj * cur, *next;
 		if (1 == nobjs)
 			return(chunk);
+		
 		int Index = FreeList_Index(n);
-		cur = Free_List[Index]->Free_List_Link;
+		//预留出一块内存返回 挂起来剩余的内存块
+		cur = (Obj*)(chunk + n);
+
+		Free_List[Index] = cur;
+		//将内存块连接起来
 		for (int i = 1; i < nobjs - 1; i++)
 		{
 			next = (Obj *)((char *)cur + n);
@@ -199,7 +204,7 @@ public:
 			_Start += Need;
 			return Ret;
 		}
-		else if (Need >= size)
+		else if (size <= LeftBytes)
 		{
 			__TRACE_DEBUG("内存池中内存不够分配%d个对象， 只能分配%d个对象\n", nobjs, LeftBytes / size);
 			nobjs = LeftBytes / size;
